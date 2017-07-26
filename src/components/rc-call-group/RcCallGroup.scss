@@ -1,0 +1,9 @@
+@import '../../base.scss';
+.rc-call-group-container {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 3px solid #26333b;;
+}
+.flex-spacer {
+  flex: 1 1 auto;
+}

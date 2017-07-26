@@ -1,0 +1,15 @@
+@import '../../base.scss';
+.rc-auth-container {
+    grid-area: 1 / 1 / 4 /4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height:100%;
+    background-color: #26333b;
+    .rc-form-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: auto;
+    }
+}

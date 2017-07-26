@@ -1,7 +1,12 @@
 import React from 'react';
-import {render} from 'react-dom';
+import ReactDom, {render} from 'react-dom';
+import {BrowserRouter, Route} from 'react-router-dom';
 import App from './components/App.jsx';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
-render(<App />, document.querySelector('#root'));
+render((
+    <BrowserRouter>
+        <App />
+    </BrowserRouter>
+), document.querySelector('#root'));

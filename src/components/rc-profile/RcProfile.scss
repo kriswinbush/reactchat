@@ -1,0 +1,22 @@
+@import '../../base.scss';
+.rc-profile-container {
+  display: flex;
+  height: 56px;
+  width: 100%;
+  background-color: #26333b;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  h4 {
+    color: white;
+  }
+  p {
+    &:before {
+      content: '\2022';
+      color: lightgreen;
+    }
+  }
+}
+.flex-spacer {
+  flex:1 1 auto;
+}

@@ -1,0 +1,9 @@
+@import '../../base.scss';
+
+.rc-chat-bubble-container {
+  display: flex;
+  width: 100%;
+  .chat-bubble-avatar {
+    padding: 10px;
+  }
+}
