@@ -1,0 +1,22 @@
+@import '../../base.scss';
+
+.rc-chat-input-container {
+  width: 100%;
+  .chat-input {
+      display: flex;
+      justify-content: center;
+      align-items:stretch;
+      flex-direction: column;
+      width: 100%;
+      div {
+        flex: 1 1 auto;
+        
+        fieldset {
+          border-bottom: none;
+        }
+      }
+  }
+}
+.flex-spacer {
+  flex: 1 1 auto;
+}

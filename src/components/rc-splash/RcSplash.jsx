@@ -1,13 +1,13 @@
 import'./RcSplash.scss';
 import React from 'react';
 import { Route, Link, Redirect, withRouter } from 'react-router-dom'
-import fire from '../rc-firebase/RcFirebase.js';
+import {auth, fire} from '../../service/firebase';
 import RcAuth from '../../components/rc-auth/RcAuth.jsx';
 import RcClock from '../../components/rc-clock/RcClock.jsx';
 class RcSplash extends React.Component {
     constructor(props) {
         super(props);
-        this.auth = fire.auth();
+        this.auth = auth;
         this.state = {
             loading: true
         }

@@ -1,5 +1,9 @@
 @import '../../base.scss';
 
 .rc-chat-container {
+  height: 100%;
+  grid-area: 1 / 2 /4 /3;
+  display: grid;
+  grid-template-rows: auto auto 1fr auto;
   padding: 0px;
 }

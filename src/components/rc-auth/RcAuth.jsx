@@ -1,12 +1,10 @@
-require('./RcAuth.scss')
+import './RcAuth.scss';
 import React from 'react';
-import fire from '../rc-firebase/RcFirebase.js';
+import fb from '../../service/firebase';
 import { withRouter } from 'react-router-dom';
-import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
+import { Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
-
-
 
 export default class RcAuth extends React.Component {
     constructor(props) {
@@ -18,28 +16,25 @@ export default class RcAuth extends React.Component {
         }
         this.inputChangeHandler = this.inputChangeHandler.bind(this);
         this.submitHandler = this.submitHandler.bind(this);
-        this.auth = fire.auth();
+       
     }
     inputChangeHandler(e) {
         const target = e.target;
         const value = target.type === 'checkbox' ? target.checked : target.value;
-        const name = target.name;
+        const name = target.id;
         this.setState({
             [name]: value
         })
     }
     submitHandler(e) {
-        console.log(e.target.id)
         if(e.target.id === 'signup') {
-            this.auth.createUserWithEmailAndPassword(this.state.email, this.state.password);
+           fb.auth.createUserWithEmailAndPassword(this.state.email, this.state.password);
         }
         if(e.target.id === 'logout') {
             this.auth.signOut()
         }
-        this.auth.signInWithEmailAndPassword(this.state.email, this.state.password)
-            .catch(err =>{
-                console.log(err.code)
-                
+        fb.auth.signInWithEmailAndPassword(this.state.email, this.state.password)
+            .catch(err =>{    
                 if(err.code === "auth/invalid-email") {
                   this.setState({errorMessage:"Invalid email fix the issue"})
                 }
@@ -49,14 +44,14 @@ export default class RcAuth extends React.Component {
                 }
             });
 
-        this.auth.onAuthStateChanged(user => {
+        fb.auth.onAuthStateChanged(user => {
             if(user) {
                 this.props.history.push("/")
             }
-
         })
         e.preventDefault(); 
     }
+    
     render() {
         return (
             <div className="rc-auth-container"> 
@@ -70,7 +65,7 @@ export default class RcAuth extends React.Component {
                         <CardText>{this.state.errorMessage}</CardText> 
                         <CardActions>
                             <TextField
-                                id="rc-login-email" 
+                                id="email" 
                                 hintText="Email"
                                 floatingLabelText="Enter your email"
                                 fullWidth={true}
@@ -79,7 +74,7 @@ export default class RcAuth extends React.Component {
                                 type="text"
                             />
                             <TextField 
-                                id="rc-login-password"
+                                id="password"
                                 hintText="Password"
                                 floatingLabelText="Enter your password"
                                 fullWidth={true}

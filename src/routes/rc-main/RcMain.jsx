@@ -2,7 +2,7 @@ import './RcMain.scss';
 import React from 'react';
 import RcAuth from '../../components/rc-auth/RcAuth.jsx';
 import RcSplash from '../../components/rc-splash/RcSplash.jsx';
-import fire from '../../components/rc-firebase/RcFirebase.js';
+import {auth} from '../../service/firebase';
 import AuthCheck from '../../hoc/AuthCheck.jsx';
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -17,7 +17,7 @@ import RcContact from '../../components/rc-contact/RcContact.jsx';
 
 
 let RcHandler = function(e){
-    fire.auth().signOut().then(
+    auth.signOut().then(
         this.props.history.push("/")
     )
 }

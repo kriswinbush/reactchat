@@ -1,4 +1,5 @@
 import './App.scss';
+import "babel-polyfill";
 import React from 'react';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import RcAuth from '../components/rc-auth/RcAuth.jsx';

@@ -1,6 +1,6 @@
-import * as firebase from 'firebase';
+import firebase from 'firebase';
 
-const fbConfig = {
+var config = {
   apiKey: "AIzaSyBgGQBuZPUWGLjosH9s-ZeX_6QL61PeEHE",
   authDomain: "rtcchat-b6efd.firebaseapp.com",
   databaseURL: "https://rtcchat-b6efd.firebaseio.com",
@@ -8,5 +8,10 @@ const fbConfig = {
   storageBucket: "rtcchat-b6efd.appspot.com",
   messagingSenderId: "451643725027"
 };
-var fbConnection = firebase.initializeApp(fbConfig);
-export default fbConnection;
+var fire = firebase.initializeApp(config);
+var auth = firebase.auth();
+var fbdb = firebase.database().ref();
+var convo = fbdb.child('convo');
+
+var fb = { fire, auth, fbdb, convo }
+export default fb;

@@ -1,7 +1,11 @@
 @import '../../base.scss';
 
-.rc-chat-content {
-  padding: 20px;
-  height: 100%;
+.rc-chat-content-container {
   width: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+  .content-list {
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
 }
