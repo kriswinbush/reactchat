@@ -1,15 +1,19 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Route, Link, Redirect, withRouter } from 'react-router-dom';
 import fb from '../service/firebase';
-
+import stores from '../stores';
 const AuthCheck = function({ component: Component, ...rest}) { 
   return (
-    <Route {...rest}  render={ props => {  
+    <Route {...rest}  render={ props =>{  
       props =  {...props, ...rest}
-      let content = null;
+      console.log(stores.userStore);
+      let authedUser = null;
       fb.auth.onAuthStateChanged((user)=>{
-        if(user) {}  
+        if(user) {
+
+        }  
       }) 
+      console.log(stores.authStore)
       return (
         fb.auth.currentUser ? (
           <Component {...props}/>
@@ -24,3 +28,16 @@ const AuthCheck = function({ component: Component, ...rest}) {
   ) 
 }
 export default AuthCheck;
+
+const NotherTag = ({component:Component, ...rest}) => {
+  return class NT extends Component {
+    constructor(props){
+      super(props);
+
+    }
+    render() {
+      let content = <div>yeah</div>
+      return (content)
+    }
+  }
+}

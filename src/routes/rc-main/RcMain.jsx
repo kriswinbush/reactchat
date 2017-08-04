@@ -8,14 +8,13 @@ import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import RcChat from '../../components/rc-chat/RcChat.jsx';
-import RcClock from '../../components/rc-clock/RcClock.jsx';
 import FlatButton from 'material-ui/FlatButton';
 import FontIcon from 'material-ui/FontIcon';
 import ActionHome from 'material-ui/svg-icons/action/home';
 import RcSideLink from '../../components/rc-side-link/RcSideLink.jsx';
 import RcContact from '../../components/rc-contact/RcContact.jsx';
-
-
+import { Provider } from 'mobx-react';
+import stores from '../../stores';
 let RcHandler = function(e){
     auth.signOut().then(
         this.props.history.push("/")
@@ -71,9 +70,11 @@ class RcMain extends React.Component {
     render() {  
         return (
             <main className="rc-main-container">
-                <RcSideLink />
-                <RcChat />
-                <RcContact /> 
+                
+                    <RcSideLink />
+                    <RcChat />
+                    <RcContact />
+                
             </main>
         )
     }

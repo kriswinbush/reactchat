@@ -9,13 +9,14 @@ import { Switch, Route } from 'react-router-dom';
 
 export default class App extends React.Component {
   render() {
+
     return (
       <MuiThemeProvider>
         <div className="app">
-          <Switch>
-            <AuthCheck exact path='/' component={RcMain} />
-            <Route path="/auth" component={RcAuth} />
-          </Switch>
+            <Switch>
+              <AuthCheck exact path='/' component={RcMain} /> 
+              <Route path="/auth" component={RcAuth} />
+            </Switch>
         </div>
       </MuiThemeProvider>
     )

@@ -1,6 +1,6 @@
 import { action, observable, computed, toJS, ObservableMap } from 'mobx';
 import fb from '../service/firebase';
-
+import stores from './';
 export class Chat {
   id;
   user;
@@ -10,10 +10,9 @@ export class Chat {
   constructor(chat) {
     this.msg = chat.msg;
     this.id = fb.convo.push().key;
-    //get usr from firebase auth
-    this.user = '100khz',
-      //some type of group mech
-      this.group = 'winners'
+    this.user = stores.userStore.profile.userNick
+    //some type of group mech
+    this.group = 'winners'
   }
 }
 
@@ -25,8 +24,6 @@ export class ChatStore {
     fb.convo.on('value', action('Push from fb to chatMessage', (snapshot) => {
       if (snapshot.val() != null) {
         this.chatMessages = new Map(this.obj2Matrix(snapshot.val()));
-        //const snap = snapshot.val();
-        //Object.keys(snap).forEach(key =>this.chatMessages.set(`${key}`, snap[key]));
       }
     }));
     this.addChatMsg = this.addChatMsg.bind(this);

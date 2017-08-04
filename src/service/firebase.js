@@ -12,6 +12,6 @@ var fire = firebase.initializeApp(config);
 var auth = firebase.auth();
 var fbdb = firebase.database().ref();
 var convo = fbdb.child('convo');
-
-var fb = { fire, auth, fbdb, convo }
+var messaging = firebase.messaging();
+var fb = { fire, auth, fbdb, convo, messaging }
 export default fb;
