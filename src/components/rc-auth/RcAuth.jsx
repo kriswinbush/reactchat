@@ -13,8 +13,8 @@ export default class RcAuth extends React.Component {
     super(props);
     this.auth = this.props.stores.authStore;
     this.state = {
-      email: '',
-      password: ''
+      email: 'kris.winbush@gmail.com',
+      password: 'password'
     }
     this.changeHandler = this.changeHandler.bind(this);
     this.submitHandler = this.submitHandler.bind(this);
@@ -26,10 +26,11 @@ export default class RcAuth extends React.Component {
     this.setState({ [name]: value })
   }
   submitHandler(event) {
+    event.preventDefault();
     switch(event.target.id) {
       case 'login':
         this.auth.loginUser(this.state.email, this.state.password)
-          .then(() => this.props.history.push("/"));
+          .then(() => this.props.stores.routing.push("/"));
       break;
       case 'signup':
         this.auth.createUser(this.state.email, this.state.password)
@@ -38,10 +39,9 @@ export default class RcAuth extends React.Component {
       break;
       case 'logout':
         this.auth.signOut()
-          .then((e) => console.log('sign out complete', e))
+          /* .then((e) => console.log('sign out complete', e)) */
       break;
     }
-    event.preventDefault();
   }
 
   render() {

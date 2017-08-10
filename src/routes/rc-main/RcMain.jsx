@@ -15,18 +15,18 @@ import RcSideLink from '../../components/rc-side-link/RcSideLink.jsx';
 import RcContact from '../../components/rc-contact/RcContact.jsx';
 import { Provider } from 'mobx-react';
 import stores from '../../stores';
-let RcHandler = function(e){
-    auth.signOut().then(
-        this.props.history.push("/")
-    )
-}
+import { Switch, Route, Link } from 'react-router-dom';
+import RcVideo from '../../components/rc-video/RcVideo.jsx';
+import {inject, observer} from 'mobx-react';
 
+@inject('stores') @observer
 class RcMain extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             title: 'React WebRTC Video Chat PWA',
-            loading: true
+            loading: true,
+            isVideoConf: true
         }
         /*since Main has the grid 
         makes since to pass down 
@@ -69,12 +69,11 @@ class RcMain extends React.Component {
     }
     render() {  
         return (
-            <main className="rc-main-container">
-                
+            <main className="rc-main-container">             
                     <RcSideLink />
                     <RcChat />
                     <RcContact />
-                
+                    { this.props.stores.uiStore.showVideo && <Route path="/" component={RcVideo} /> }
             </main>
         )
     }

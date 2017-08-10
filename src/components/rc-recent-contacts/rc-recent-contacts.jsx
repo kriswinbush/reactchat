@@ -13,10 +13,7 @@ export default class RcRecentContacts extends Component {
     super(props);
     this.state = {}
   }
-
-  componentDidMount() {
-
-  }
+  componentDidMount() {}
   render() {
     return (
       <Tabs>

@@ -1,6 +1,7 @@
 @import '../../base.scss';
 
 .rc-chat-content-container {
+  grid-area: chat-content;
   width: 100%;
   overflow-x: hidden;
   overflow-y: auto;

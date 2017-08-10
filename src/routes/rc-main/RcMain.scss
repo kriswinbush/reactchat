@@ -1,9 +1,28 @@
 @import '../../base.scss';
+
 .rc-main-container {
     display: grid;
     grid-template-columns: 100px 1fr 400px;
     grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas:
+    "left-sidebar main-content right-sidebar"
+    "left-sidebar main-content right-sidebar"
+    "left-sidebar main-content right-sidebar";
     height: 100%;
     width: 100%;
     z-index: 9999;
+}
+@media #{$mobile} {
+  .rc-main-container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas:
+    "main-content"
+    "main-content"
+    "main-content";
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+  }    
 }

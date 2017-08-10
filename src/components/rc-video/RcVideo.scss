@@ -1,0 +1,53 @@
+@import '../../base.scss';
+
+.rc-video-container {
+  position: relative;
+  grid-area: 1/1/4/4;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height:100%;
+  background-color:rgba(38, 51, 59,0.6);
+  z-index: 9990;
+  .center-video {
+    width: 80vw;
+    height: 60vh;
+    display: grid;
+    grid-gap: 20px;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    align-items: flex-end;
+    .close-button {
+      color: white;
+      grid-area: 1/4/2/5;
+      z-index: 9999;
+      align-self: flex-start;
+      justify-self: end;
+      margin: 10px 10px 10px 10px;
+    }
+    .large-vid-container {
+      position: relative;
+      grid-area: 1/1/5/5;
+      z-index: 9995;
+      width: 100%;
+      #large-vid {
+        position: relative;
+        object-fit: cover;
+        width: 80vw;
+        height: 60vh;
+      }
+    }
+    .small-vid-container {
+      position: relative;
+      grid-area: 4/4/5/5;
+      z-index: 9999;
+      #small-vid {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width:100%;
+      }
+    }
+    
+  }
+}

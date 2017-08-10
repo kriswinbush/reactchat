@@ -23,19 +23,7 @@ export default class RcChat extends Component {
     e.preventDefault();
     console.log(e);
   }
-  componentDidMount() {
-    //const rootRef = fire.database().ref();
-    //var d = rootRef.child('reactchat');
-    //var i = rootRef.child('reactchat/users')
-    //i.push().set({ id: 2, firstName: 'Kris', LastName: "WInbush", email: 'Kris.winbush@gmail.com' })
-    //i.push().set({ id: 1, firstName: 'Kris', LastName: "WInbush", email: 'ks.nbush@gmail.com' })
-    //const speedRef = d.child('speed');
-    //speedRef.on('value', snap => {
-      //this.setState({
-        //speed: snap.val()
-      //})
-    //})
-  }
+  componentDidMount() {}
   render() {
     return (
       <Provider chats={stores.chatStore}>

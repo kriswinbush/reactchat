@@ -1,6 +1,7 @@
 @import '../../base.scss';
 
 .rc-chat-input-container {
+  grid-area: chat-input;
   width: 100%;
   .chat-input {
       display: flex;

@@ -1,14 +1,15 @@
 import { action, reaction, observable, computed, toJS, ObservableMap } from 'mobx';
 import fb from '../service/firebase';
+import stores from './index';
 
 export class AuthStore {
   @observable errorMessage = '';
-  @observable cUser = '';
   constructor() {
     this.loginUser = this.loginUser.bind(this);
+    this.signOut = this.signOut.bind(this);
     fb.auth.onAuthStateChanged(user => {
       if(!user) {
-        this.setErrMsg(`Sign In or Sign Up to get started`)
+        this.setErrMsg(`Sign In or Sign Up to get started`);   
       } else {
         this.setUser(user);
       }
@@ -16,7 +17,7 @@ export class AuthStore {
     reaction(()=> this.errorMessage.length, () => console.log('error message reaction called'))
   }
   @action setUser(user){
-    this.cUser = user;
+    stores.userStore.currentUser = user;
   }
   @action setErrMsg(msg){
     this.errorMessage = msg;
@@ -30,8 +31,7 @@ export class AuthStore {
       .catch(err =>this.errorLookUp(err));
   }
   @action signOut() {
-    this.setUser('');
-    return fb.auth.signOut();
+    fb.auth.signOut();
   }
   errorLookUp(err){
     let act = {

@@ -2,13 +2,14 @@ import chatStore from './ChatStore';
 import authStore from './AuthStore';
 import userStore from './UserStore';
 import msgStore from './MsgStore';
-import navStore from './NavStore';
+import uiStore from './UiStore';
+
 const stores = {
   chatStore,
   authStore,
   userStore,
   msgStore,
-  navStore
+  uiStore
 };
 
 export default stores;

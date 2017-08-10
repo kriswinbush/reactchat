@@ -1,5 +1,6 @@
 @import '../../base.scss';
 .rc-call-group-container {
+  grid-area: call-group;
   display: flex;
   flex-direction: row;
   border-bottom: 3px solid #26333b;;

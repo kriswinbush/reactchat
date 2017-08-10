@@ -52,7 +52,7 @@ export default class RcChatInput extends Component {
                     onChange={this.changeHandler}
                     floatingLabelText="Floating Label Text"
                   />
-                  <RaisedButton type="submit" label="Send" primary={true} />
+                  <RaisedButton type="submit" label="Send" primary={true} fullWidth={true} />
                 </fieldset>
               </div>
               {/* <div>{this.state.user}</div> */}

@@ -2,8 +2,13 @@
 
 .rc-chat-container {
   height: 100%;
-  grid-area: 1 / 2 /4 /3;
+  grid-area: main-content;
   display: grid;
   grid-template-rows: auto auto 1fr auto;
+  grid-template-areas: 
+  "toolbar"
+  "call-group"
+  "chat-content"
+  "chat-input";
   padding: 0px;
 }

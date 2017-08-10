@@ -5,17 +5,10 @@ import stores from '../stores';
 const AuthCheck = function({ component: Component, ...rest}) { 
   return (
     <Route {...rest}  render={ props =>{  
-      props =  {...props, ...rest}
-      console.log(stores.userStore);
-      let authedUser = null;
-      fb.auth.onAuthStateChanged((user)=>{
-        if(user) {
-
-        }  
-      }) 
-      console.log(stores.authStore)
+      props =  {...props, ...rest, ...stores}
+      var authedUser = false;
       return (
-        fb.auth.currentUser ? (
+        props.userStore.currentUser != null ? (
           <Component {...props}/>
         ):(
           <Redirect to={{

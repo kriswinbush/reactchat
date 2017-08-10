@@ -4,9 +4,8 @@ import userStore from './UserStore';
 import createHistory from 'history/createBrowserHistory';
 
 export class NavStore {
+  @observable history = createHistory();
   constructor() { 
-    
-    this.history = createHistory();
     console.log(this.history)
   }
   push(to) {

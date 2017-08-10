@@ -1,18 +1,35 @@
 @import '../../base.scss';
 .rc-side-link-container {
-  grid-area: 1 / 1 / 4 / 2;
-  display: flex;
-  flex-direction: column;
+  grid-area: left-sidebar;
   height: 100%;
   width: 100px;
   background-color: #26333b;
   ul {
     display: flex;
+    height: 100%;
     flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
     list-style-type: none;
     li {
-      flex: 1 1 auto;
-      text-align: center;
+      &:first-child {
+        color: green;
+      }
+      &:last-child {
+        color: red;
+      }
     }
   }
+}
+.flex-spacer {
+  flex: 1 1 auto;
+}
+@media #{$mobile} { 
+  .rc-side-link-container {
+    position: absolute;
+    top:0;
+    left:0;
+    display:none;
+    z-index: 9999;
+  }  
 }
