@@ -14,9 +14,6 @@ export default class App extends React.Component {
     this.state = {isVideoConf:true};
   }
   previousLocation = this.props.location;
-  componentWillUpdate(nextProps) {
-      console.log(nextProps) 
-  }
   render() {
     return (
       <MuiThemeProvider>

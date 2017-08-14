@@ -16,11 +16,11 @@ export class MsgStore {
       }
     fb.messaging.requestPermission()
       .then(()=>{
-        console.log('got permission')
+        //console.log('got permission')
         return fb.messaging.getToken();
       })
       .then(action(token => {
-        console.log(token)
+        //console.log(token)
         this.msg_token = token
       }))
       .catch(err => {

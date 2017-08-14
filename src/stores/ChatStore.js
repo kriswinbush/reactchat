@@ -2,15 +2,11 @@ import { action, observable, computed, toJS, ObservableMap } from 'mobx';
 import fb from '../service/firebase';
 import stores from './';
 export class Chat {
-  id;
-  user;
-  group;
-  msg;
-  contacts = [];
   constructor(chat) {
     this.msg = chat.msg;
     this.id = fb.convo.push().key;
     this.user = stores.userStore.profile.userNick
+    this.contacts = [];
     //some type of group mech
     this.group = 'winners'
   }

@@ -14,6 +14,12 @@ export class UiStore {
     }
     //this.showVideo = this.showVideo ? !this.showVideo : this.showVideo;
   }
+  @action openVideo() {
+    this.showVideo = true;
+  }
+  @action closeVideo() {
+    this.showVideo = false;
+  }
 }
 const uiStore = window.uiStore = new UiStore();
 export default uiStore;

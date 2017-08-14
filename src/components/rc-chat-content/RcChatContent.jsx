@@ -38,17 +38,17 @@ export default class RcChatContent extends Component {
             <Divider inset={true} />
 
             {chatMessages.entries().map((chat, id) => {
-              chat = chat[1].msg;
+              const {msg} = chat[1];
               return (
                 <ListItem
                   key={id}
-                  leftAvatar={<Avatar src={`${url}/${pix[7]}`} />}
-                  rightIconButton={<RightIconMenu />}
-                  primaryText={chat.user}
+                  leftAvatar={<Avatar src={`${url}/${pix[Math.floor(Math.random() * pix.length)]}`} />}
+                  rightIconButton={<RightIconMenu chat={msg} />}
+                  primaryText={msg.user}
                   secondaryText={
                     <p>
-                      <span style={{ color: darkBlack }}>{chat.group}</span><br />
-                      {chat.msg}
+                      <span style={{ color: darkBlack }}>{msg.group}</span><br />
+                      {msg.msg}
                     </p>
                   }
                   secondaryTextLines={2}

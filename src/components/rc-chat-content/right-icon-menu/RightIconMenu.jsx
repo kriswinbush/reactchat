@@ -10,14 +10,16 @@ import { inject, Provider, observer } from 'mobx-react';
 export default class RightIconMenu extends Component {
   constructor(props) {
     super(props);
-    console.log(props.stores.routing)
     this.cEventHandler = this.cEventHandler.bind(this);
   }
+
   cEventHandler(event) {
     event.preventDefault();
-    this.props.stores.uiStore.toggleVideoView();
+    this.props.stores.peerStore.makePeerConnection(this.props.chat.user)
   }
+
   render() {
+    //Or Add chat bubble user as contact send req
     return (
       <IconMenu iconButtonElement={iconButtonElement}>
         <MenuItem onClick={this.cEventHandler}>Voice Call</MenuItem>
