@@ -47,7 +47,7 @@ export default class RcVideo extends React.Component {
             </IconButton>
           </div>
           <div className="large-vid-container">
-            <video ref={(video)=>{this.lgVideoRef = video}}  id="large-vid" autoPlay></video>
+            <video ref={(video)=>{this.props.stores.peerStore.calleeVidRef = video}}  id="large-vid" autoPlay></video>
           </div>
           <div className="small-vid-container">
             <video ref={(video)=>{this.smVideoRef = video}} id='small-vid' controls autoPlay></video>

@@ -28,13 +28,14 @@ export class PeerStore {
 
     this.signalRef.on('child_added', this.recvMsg.bind(this));
 
-    /* Rx.Observable.fromEvent(this.peer, 'addStream')
-      .subscribe(event => this.addCallee(event.stream)) */
+    Rx.Observable.fromEvent(this.peer, 'addStream')
+      .subscribe(event => this.addCallee(event.stream))
+
     Rx.Observable.fromEvent(this.peer, 'addstream')
       .subscribe(event => {
 	      console.log(event);
 	      console.log('add stream finally fired');
-	      this.lgVideoRef.srcObject = event.stream
+	      this.addLgStream(event.stream);
 	    });
     Rx.Observable.fromEvent(this.peer, 'icecandidate')
       .subscribe(evt => evt.candidate ? this.sendPeerMsg(JSON.stringify({ 'ice': evt.candidate })) : console.log('end of ice'))
@@ -62,6 +63,9 @@ export class PeerStore {
     console.log(stream);
     this.calleeVidRef.srcObject = stream;
   } */
+  @action addLgStream(stream) {
+    this.calleeVidRef = stream;
+  }
   makePeerConnection(email) {
     userStore.findCalleeByEmail(email)
       .then(() => uiStore.openVideo())
@@ -96,8 +100,8 @@ export class PeerStore {
       } else if (message['sdp'] != undefined && message['sdp']['type'] == "offer") {
         this.replyTo = sender;
         userStore.caller = sender;
-        let setCallerOffer = this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp));
-        setCallerOffer.then(() => uiStore.openVideo())
+        uiStore.openVideo()
+          .then(() => this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp)))
           .then(() => this.peer.createAnswer(this.constraints))
           .then(answer => this.peer.setLocalDescription(answer))
           .then(() => this.iceStorage.forEach(icee => this.peer.addIceCandidate(new RTCIceCandidate(icee))))
