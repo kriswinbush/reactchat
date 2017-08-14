@@ -57,6 +57,10 @@ export class PeerStore {
 
     Rx.Observable.fromEvent(this.peer, 'icegatheringstatechange')
       .subscribe(event => console.log(event))
+
+      this.peer.onaddstream = function(event){
+        console.log(event);
+      }
   }
 
   /* @action addCallee(stream) {
