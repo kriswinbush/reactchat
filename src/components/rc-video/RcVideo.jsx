@@ -15,7 +15,7 @@ export default class RcVideo extends React.Component {
     this.smVideRef;
 
     Rx.Observable.fromEvent(this.props.stores.peerStore.peer, 'addStream')
-      .subscribe(event => this.lgVideoRef = event.stream);
+      .subscribe(event => this.lgVideoRef.srcObject = event.stream);
 
     navigator.mediaDevices.getUserMedia({audio:true, video: true})
       .then(stream => this.smVideoRef.srcObject = stream)
