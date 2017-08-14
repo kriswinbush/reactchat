@@ -71,8 +71,10 @@ export class PeerStore {
       } else if (message['sdp'] != undefined && message['sdp']['type'] == "offer") {
         this.replyTo = sender;
         userStore.caller = sender;
-        let setOfferRemote = this.pc.setRemoteDescription(new RTCSessionDescription(message.sdp));
-        setOfferRemote
+        let setOfferFromRemote = this.pc.setRemoteDescription(new RTCSessionDescription(message.sdp));
+        setOfferFromRemote
+          .then(() => uiStore.openVideo())
+          .then(() => { this.iceStorage.forEach( icee => this.pc.addIceCandidate(new RTCIceCandidate(icee)) ) })
           .then(() => {
             // if (confirm('Except Video Call from')) 
             this.setIsCallee(true);
@@ -80,15 +82,15 @@ export class PeerStore {
           })
             .then(answer => this.pc.setLocalDescription(answer))
               .then(() => this.sendPeerMsg(JSON.stringify({ 'sdp': this.pc.localDescription })))
-              .then(() => uiStore.openVideo())
+              
               .catch(err => console.log(err))
       }
     } else if (message['sdp'] != undefined && message['sdp']['type'] == "answer") {
-      debugger;
+      //debugger;
       let setAnswerRemote = this.pc.setRemoteDescription(new RTCSessionDescription(message.sdp));
       setAnswerRemote
-        .then(() => { this.iceStorage.forEach( icee => this.pc.addIceCandidate(new RTCIceCandidate(icee)) ) })
-      .then(() => uiStore.openVideo());
+      .then(() => uiStore.openVideo())
+      .then(() => { this.iceStorage.forEach( icee => this.pc.addIceCandidate(new RTCIceCandidate(icee)) ) });
     } else {
       console.log('fuck it')
     }
