@@ -34,7 +34,7 @@ export class PeerStore {
       .subscribe(event => {
 	      console.log(event);
 	      console.log('add stream finally fired');
-	      //this.lgVideoRef.srcObject = event.stream
+	      this.lgVideoRef.srcObject = event.stream
 	    });
     Rx.Observable.fromEvent(this.peer, 'icecandidate')
       .subscribe(evt => evt.candidate ? this.sendPeerMsg(JSON.stringify({ 'ice': evt.candidate })) : console.log('end of ice'))
@@ -109,7 +109,8 @@ export class PeerStore {
       let setAnswerRemote = this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp));
       setAnswerRemote
       .then(() => uiStore.openVideo())
-      .then(() => { this.iceStorage.forEach( icee => this.peer.addIceCandidate(new RTCIceCandidate(icee)) ) });
+      .then(() => { this.iceStorage.forEach( icee => this.peer.addIceCandidate(new RTCIceCandidate(icee)) ) })
+      .then(() =>  this.peer.getRemoteStreams()[0]);
     } else {
       console.log('fuck it')
     }
