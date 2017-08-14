@@ -5,6 +5,7 @@ import { Switch, Route, Link } from 'react-router-dom';
 import IconButton from 'material-ui/IconButton';
 import NavigationClose from 'material-ui/svg-icons/navigation/close';
 import {blue500, red500, fullWhite} from 'material-ui/styles/colors';
+import Rx from 'rxjs';
 
 @inject('stores') @observer
 export default class RcVideo extends React.Component {
@@ -12,11 +13,14 @@ export default class RcVideo extends React.Component {
     super(props);
     this.lgVideoRef;
     this.smVideRef;
-    //opening video depends on having the callee in PeerStore populated
+
+    Rx.Observable.fromEvent(this.props.stores.peerStore.peer, 'addStream')
+      .subscribe(event => this.lgVideoRef = event.stream);
+
     navigator.mediaDevices.getUserMedia({audio:true, video: true})
       .then(stream => this.smVideoRef.srcObject = stream)
-      .then(stream => this.props.stores.peerStore.pc.addStream(stream))
-      .catch(err => console.log(err))
+      .then(stream => this.props.stores.peerStore.peer.addStream(stream))
+
     this.eHandler = this.eHandler.bind(this);
   }
   eHandler(event) {

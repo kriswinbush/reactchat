@@ -16,7 +16,7 @@ class Profile {
 export class UserStore {
   @observable currentUser = null;
   @observable callee;
-   @observable caller;
+  @observable caller;
   @observable profile = new Profile(stores.msgStore.msg_token || '')
   constructor() {
     fb.auth.onAuthStateChanged(user => {

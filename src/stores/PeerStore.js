@@ -10,6 +10,7 @@ export class PeerStore {
   userProfiles;
   userProfile;
   @observable calleeVidRef;
+  @observable calleeStream;
   @observable isCallee = false;
   iceStorage = [];
   replyTo;
@@ -22,29 +23,47 @@ export class PeerStore {
     'offerToReceiveVideo': true
   }
   constructor(uiStore, userStore) {
-    this.pc = new RTCPeerConnection(this.stunTurn);
+    this.peer = new RTCPeerConnection(this.stunTurn);
     fb.fbdb.child('users').on('value', (snap) => this.userProfiles = snap.val());
 
     this.signalRef.on('child_added', this.recvMsg.bind(this));
 
-    Rx.Observable.fromEvent(this.pc, 'icecandidate')
+    /* Rx.Observable.fromEvent(this.peer, 'addStream')
+      .subscribe(event => this.addCallee(event.stream)) */
+
+    Rx.Observable.fromEvent(this.peer, 'icecandidate')
       .subscribe(evt => evt.candidate ? this.sendPeerMsg(JSON.stringify({ 'ice': evt.candidate })) : console.log('end of ice'))
+    
+    Rx.Observable.fromEvent(this.peer, 'datachannel')
+      .subscribe(event => console.log(event))
 
-    Rx.Observable.fromEvent(this.pc, 'addStream')
-      .subscribe(event => this.addCallee(event.stream))
+    Rx.Observable.fromEvent(this.peer, 'removestream')
+      .subscribe(event => console.log(event))
+
+    Rx.Observable.fromEvent(this.peer, 'signalingstatechange')
+      .subscribe(event => console.log(event))
+
+    Rx.Observable.fromEvent(this.peer, 'negotiationneeded')
+      .subscribe(event => console.log(event))
+
+    Rx.Observable.fromEvent(this.peer, 'iceconnectionstatechange')
+      .subscribe(event => console.log(event))
+
+    Rx.Observable.fromEvent(this.peer, 'icegatheringstatechange')
+      .subscribe(event => console.log(event))
   }
 
-  @action addCallee(stream) {
+  /* @action addCallee(stream) {
+    console.log(stream);
     this.calleeVidRef.srcObject = stream;
-  }
+  } */
   makePeerConnection(email) {
     userStore.findCalleeByEmail(email)
-      .then(() => this.pc.createOffer(this.constraints))
-      .then(offer => this.pc.setLocalDescription(offer))
-      .then(() => {
-        this.sendPeerMsg(JSON.stringify({ 'sdp': this.pc.localDescription }))
-      })
-      .catch(err => console.log(err))
+      .then(() => uiStore.openVideo())
+      .then(() => this.peer.createOffer(this.constraints))
+      .then(offer => this.peer.setLocalDescription(offer)) //ICE candidate immediately start firing
+      .then(() => this.sendPeerMsg(JSON.stringify({ 'sdp': this.peer.localDescription })))
+      .catch(err => console.log(err));
   }
   sendPeerMsg(data) {
     let recv = userStore.caller || Object.keys(userStore.callee)[0];
@@ -65,36 +84,32 @@ export class PeerStore {
     
     message = JSON.parse(message);
     if (userStore.currentUser.uid == receiver) {
+// if (confirm('Except Video Call from')) 
       if (message.ice) {
         console.log('ice firing off correctly')
         this.iceStorage.push(message.ice)
       } else if (message['sdp'] != undefined && message['sdp']['type'] == "offer") {
         this.replyTo = sender;
         userStore.caller = sender;
-        let setOfferFromRemote = this.pc.setRemoteDescription(new RTCSessionDescription(message.sdp));
-        setOfferFromRemote
-          .then(() => uiStore.openVideo())
-          .then(() => { this.iceStorage.forEach( icee => this.pc.addIceCandidate(new RTCIceCandidate(icee)) ) })
-          .then(() => {
-            // if (confirm('Except Video Call from')) 
-            this.setIsCallee(true);
-             return this.pc.createAnswer(this.constraints)
-          })
-            .then(answer => this.pc.setLocalDescription(answer))
-              .then(() => this.sendPeerMsg(JSON.stringify({ 'sdp': this.pc.localDescription })))
-              
-              .catch(err => console.log(err))
-      }
+        let setCallerOffer = this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp));
+        setCallerOffer.then(() => uiStore.openVideo())
+          .then(() => this.peer.createAnswer(this.constraints))
+          .then(answer => this.peer.setLocalDescription(answer))
+          .then(() => this.iceStorage.forEach(icee => this.peer.addIceCandidate(new RTCIceCandidate(icee))))
+          .then(() => this.setIsCallee(true))     
+          .then(() => this.sendPeerMsg(JSON.stringify({ 'sdp': this.peer.localDescription })))
+          .catch(err => console.log(err))
     } else if (message['sdp'] != undefined && message['sdp']['type'] == "answer") {
       //debugger;
-      let setAnswerRemote = this.pc.setRemoteDescription(new RTCSessionDescription(message.sdp));
+      let setAnswerRemote = this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp));
       setAnswerRemote
       .then(() => uiStore.openVideo())
-      .then(() => { this.iceStorage.forEach( icee => this.pc.addIceCandidate(new RTCIceCandidate(icee)) ) });
+      .then(() => { this.iceStorage.forEach( icee => this.peer.addIceCandidate(new RTCIceCandidate(icee)) ) });
     } else {
       console.log('fuck it')
     }
   }
+}
 }
 const peerStore = window.peerStore = new PeerStore();
 export default peerStore;
