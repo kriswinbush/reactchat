@@ -30,7 +30,12 @@ export class PeerStore {
 
     /* Rx.Observable.fromEvent(this.peer, 'addStream')
       .subscribe(event => this.addCallee(event.stream)) */
-
+    Rx.Observable.fromEvent(this.peer, 'addstream')
+      .subscribe(event => {
+	      console.log(event);
+	      console.log('add stream finally fired');
+	      //this.lgVideoRef.srcObject = event.stream
+	    });
     Rx.Observable.fromEvent(this.peer, 'icecandidate')
       .subscribe(evt => evt.candidate ? this.sendPeerMsg(JSON.stringify({ 'ice': evt.candidate })) : console.log('end of ice'))
     
