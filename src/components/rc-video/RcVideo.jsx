@@ -25,8 +25,10 @@ export default class RcVideo extends React.Component {
     this.props.stores.uiStore.closeVideo();
   }
   componentDidMount() {
+	console.log(this.props.stores.peerStore.onTrackStreams);
+	console.log(this.props.stores.peerStore.largeVidRef);
     if(this.props.stores.peerStore.onTrackStreams != undefined) {
-      this.props.stores.peerStore.largeVidRef.srcObject = this.props.stores.peerStore.onTrackStreams[0];
+      this.props.stores.peerStore.largeVidRef.srcObject = this.props.stores.peerStore.onTrackStreams;
     }
     
   }

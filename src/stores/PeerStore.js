@@ -62,7 +62,7 @@ export class PeerStore {
       .subscribe(event => console.log(event)) */
 
       //this.peer.ontrack = this.streamAdder.bind(this);
-      this.peer.ontrack = e => { 
+      this.peer.ontrack = e => {
         console.log(e);
         console.log('ontrack for remote stream');
         this.addLargeVid(e.streams)
@@ -71,9 +71,9 @@ export class PeerStore {
   @action addLargeVid(streams) {
     console.log(streams);
     //this.largeVidRef.srcObject = streams;
-    this.onTrackStreams = streams;
+    this.onTrackStreams = streams[0];
   }
- 
+
   getLocalVideoFeed() {
     return navigator.mediaDevices.getUserMedia({audio:true, video: true})
   }
@@ -84,7 +84,7 @@ export class PeerStore {
       receiver: recv,
       message: data
     })
-    //msg.remove();
+    msg.remove();
   }
   @action setIsCallee(val) {
     this.callee = val;
