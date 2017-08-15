@@ -28,8 +28,8 @@ export class PeerStore {
 
     this.signalRef.on('child_added', this.recvMsg.bind(this));
 
-    Rx.Observable.fromEvent(this.peer, 'addStream')
-      .subscribe(event => this.addCallee(event.stream))
+    Rx.Observable.fromEvent(this.peer, 'track')
+      .subscribe(event => console.log(event))
 
     Rx.Observable.fromEvent(this.peer, 'addstream')
       .subscribe(event => {
@@ -58,15 +58,19 @@ export class PeerStore {
     Rx.Observable.fromEvent(this.peer, 'icegatheringstatechange')
       .subscribe(event => console.log(event))
 
-      this.peer.onaddstream = function(event){
-        console.log(event);
-      }
+      //this.peer.ontrack = this.streamAdder.bind(this);
+      this.peer.ontrack = e => { 
+        console.log(e);
+        this.addCallee(e.streams[0])
+      };
   }
-
-  /* @action addCallee(stream) {
+  streamAdder(evt) {
+    console.log(event)
+  }
+  @action addCallee(stream) {
     console.log(stream);
     this.calleeVidRef.srcObject = stream;
-  } */
+  }
   @action addLgStream(stream) {
     this.calleeVidRef = stream;
   }
