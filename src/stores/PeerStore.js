@@ -70,7 +70,7 @@ export class PeerStore {
   }
   @action addLargeVid(streams) {
     console.log(streams);
-    this.largeVidRef.srcObject = streams;
+    this.largeVidRef.srcObject = streams[0];
    // this.onTrackStreams = streams[0];
   }
 
