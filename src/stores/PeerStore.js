@@ -9,9 +9,12 @@ export class PeerStore {
   signalRef = fb.fbdb.child('signaling');
   userProfiles;
   userProfile;
-  @observable calleeVidRef;
+  @observable smallVidRef;
+  @observable largeVidRef;
   @observable calleeStream;
   @observable isCallee = false;
+ /*  @observable stream = new MediaStream(); */
+  @observable onTrackStreams;
   iceStorage = [];
   replyTo;
   constraints = {
@@ -28,15 +31,15 @@ export class PeerStore {
 
     this.signalRef.on('child_added', this.recvMsg.bind(this));
 
-    Rx.Observable.fromEvent(this.peer, 'track')
-      .subscribe(event => console.log(event))
+   /*  Rx.Observable.fromEvent(this.peer, 'track')
+      .subscribe(event => console.log(event)) */
 
-    Rx.Observable.fromEvent(this.peer, 'addstream')
+    /* Rx.Observable.fromEvent(this.peer, 'addstream')
       .subscribe(event => {
 	      console.log(event);
 	      console.log('add stream finally fired');
 	      this.addLgStream(event.stream);
-	    });
+	    }); */
     Rx.Observable.fromEvent(this.peer, 'icecandidate')
       .subscribe(evt => evt.candidate ? this.sendPeerMsg(JSON.stringify({ 'ice': evt.candidate })) : console.log('end of ice'))
     
@@ -46,7 +49,7 @@ export class PeerStore {
     Rx.Observable.fromEvent(this.peer, 'removestream')
       .subscribe(event => console.log(event))
 
-    Rx.Observable.fromEvent(this.peer, 'signalingstatechange')
+    /* Rx.Observable.fromEvent(this.peer, 'signalingstatechange')
       .subscribe(event => console.log(event))
 
     Rx.Observable.fromEvent(this.peer, 'negotiationneeded')
@@ -56,31 +59,23 @@ export class PeerStore {
       .subscribe(event => console.log(event))
 
     Rx.Observable.fromEvent(this.peer, 'icegatheringstatechange')
-      .subscribe(event => console.log(event))
+      .subscribe(event => console.log(event)) */
 
       //this.peer.ontrack = this.streamAdder.bind(this);
       this.peer.ontrack = e => { 
         console.log(e);
-        this.addCallee(e.streams[0])
+        console.log('ontrack for remote stream');
+        this.addLargeVid(e.streams)
       };
   }
-  streamAdder(evt) {
-    console.log(event)
+  @action addLargeVid(streams) {
+    console.log(streams);
+    //this.largeVidRef.srcObject = streams;
+    this.onTrackStreams = streams;
   }
-  @action addCallee(stream) {
-    console.log(stream);
-    this.calleeVidRef.srcObject = stream;
-  }
-  @action addLgStream(stream) {
-    this.calleeVidRef = stream;
-  }
-  makePeerConnection(email) {
-    userStore.findCalleeByEmail(email)
-      .then(() => uiStore.openVideo())
-      .then(() => this.peer.createOffer(this.constraints))
-      .then(offer => this.peer.setLocalDescription(offer)) //ICE candidate immediately start firing
-      .then(() => this.sendPeerMsg(JSON.stringify({ 'sdp': this.peer.localDescription })))
-      .catch(err => console.log(err));
+ 
+  getLocalVideoFeed() {
+    return navigator.mediaDevices.getUserMedia({audio:true, video: true})
   }
   sendPeerMsg(data) {
     let recv = userStore.caller || Object.keys(userStore.callee)[0];
@@ -94,11 +89,23 @@ export class PeerStore {
   @action setIsCallee(val) {
     this.callee = val;
   }
+  makePeerConnection(email) {
+    userStore.findCalleeByEmail(email)
+      .then(() =>{ 
+        uiStore.openVideo(); // might be a race condition ???
+        return this.getLocalVideoFeed()
+      })
+      .then((stream) =>{
+        this.smallVidRef.srcObject = stream;
+         return stream.getTracks().forEach(track => this.peer.addTrack(track,stream))
+      })
+      .then(() => this.peer.createOffer(this.constraints))
+      .then(offer => this.peer.setLocalDescription(offer)) //ICE candidate immediately start firing
+      .then(() => this.sendPeerMsg(JSON.stringify({ 'sdp': this.peer.localDescription })))
+      .catch(err => console.log(err));
+  }
   @action recvMsg(data) {
-    console.log(data.val());
-
     let { message, receiver, sender } = data.val();
-    
     message = JSON.parse(message);
     if (userStore.currentUser.uid == receiver) {
 // if (confirm('Except Video Call from')) 
@@ -106,10 +113,16 @@ export class PeerStore {
         console.log('ice firing off correctly')
         this.iceStorage.push(message.ice)
       } else if (message['sdp'] != undefined && message['sdp']['type'] == "offer") {
-        this.replyTo = sender;
         userStore.caller = sender;
-        uiStore.openVideo()
-          .then(() => this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp)))
+        this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp))
+          .then(() => { 
+            uiStore.openVideo(); // might be a race condition ???
+            return this.getLocalVideoFeed()
+          })
+          .then((stream) => {
+            this.smallVidRef.srcObject = stream;
+            return stream.getTracks().forEach(track => this.peer.addTrack(track,stream))
+          })
           .then(() => this.peer.createAnswer(this.constraints))
           .then(answer => this.peer.setLocalDescription(answer))
           .then(() => this.iceStorage.forEach(icee => this.peer.addIceCandidate(new RTCIceCandidate(icee))))
@@ -118,10 +131,9 @@ export class PeerStore {
           .catch(err => console.log(err))
     } else if (message['sdp'] != undefined && message['sdp']['type'] == "answer") {
       //debugger;
-      uiStore.openVideo()
-        .then(() => this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp)) )
-        .then(() => { this.iceStorage.forEach( icee => this.peer.addIceCandidate(new RTCIceCandidate(icee)) ) })
-        .then(() =>  this.peer.getRemoteStreams()[0]);
+      this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp))
+        //.then(() => { this.iceStorage.forEach( icee => this.peer.addIceCandidate(new RTCIceCandidate(icee)) ) })
+        //.then(() =>  this.peer.getRemoteStreams()[0]);
     } else {
       console.log('fuck it')
     }

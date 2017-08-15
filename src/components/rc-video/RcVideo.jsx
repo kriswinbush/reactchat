@@ -11,12 +11,13 @@ import Rx from 'rxjs';
 export default class RcVideo extends React.Component {
   constructor(props) {    
     super(props);
-    this.lgVideoRef;
-    this.smVideRef;
-    navigator.mediaDevices.getUserMedia({audio:true, video: true})
-      .then(stream => this.smVideoRef.srcObject = stream)
-      .then(stream => this.props.stores.peerStore.peer.addStream(stream))
-
+    /* navigator.mediaDevices.getUserMedia({audio:true, video: true})
+      .then(stream => {
+        console.log(stream.getTracks());
+        this.smVideoRef.srcObject = stream
+      })
+      .then(stream => this.props.stores.peerStore.setStream(stream))
+ */
     this.eHandler = this.eHandler.bind(this);
   }
   eHandler(event) {
@@ -24,7 +25,10 @@ export default class RcVideo extends React.Component {
     this.props.stores.uiStore.closeVideo();
   }
   componentDidMount() {
-    this.props.stores.peerStore.calleeVidRef = this.lgVideoRef;
+    if(this.props.stores.peerStore.onTrackStreams != undefined) {
+      this.props.stores.peerStore.largeVidRef.srcObject = this.props.stores.peerStore.onTrackStreams[0];
+    }
+    
   }
   render() {
     let styles = {
@@ -47,10 +51,10 @@ export default class RcVideo extends React.Component {
             </IconButton>
           </div>
           <div className="large-vid-container">
-            <video ref={(video)=>{this.props.stores.peerStore.calleeVidRef = video}}  id="large-vid" autoPlay></video>
+            <video ref={(video)=>{this.props.stores.peerStore.largeVidRef = video}}  id="large-vid" autoPlay></video>
           </div>
           <div className="small-vid-container">
-            <video ref={(video)=>{this.smVideoRef = video}} id='small-vid' controls autoPlay></video>
+            <video ref={(video)=>{this.props.stores.peerStore.smallVidRef = video}} id='small-vid' controls autoPlay></video>
           </div>
         </div>
       </div>
