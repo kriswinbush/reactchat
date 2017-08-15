@@ -118,11 +118,10 @@ export class PeerStore {
           .catch(err => console.log(err))
     } else if (message['sdp'] != undefined && message['sdp']['type'] == "answer") {
       //debugger;
-      let setAnswerRemote = this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp));
-      setAnswerRemote
-      .then(() => uiStore.openVideo())
-      .then(() => { this.iceStorage.forEach( icee => this.peer.addIceCandidate(new RTCIceCandidate(icee)) ) })
-      .then(() =>  this.peer.getRemoteStreams()[0]);
+      uiStore.openVideo()
+        .then(() => this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp)) )
+        .then(() => { this.iceStorage.forEach( icee => this.peer.addIceCandidate(new RTCIceCandidate(icee)) ) })
+        .then(() =>  this.peer.getRemoteStreams()[0]);
     } else {
       console.log('fuck it')
     }
