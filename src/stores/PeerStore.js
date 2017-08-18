@@ -5,18 +5,14 @@ import uiStore from './UiStore';
 import Rx from 'rxjs';
 
 export class PeerStore {
-  stunTurn = { 'iceServers': [{ 'urls': 'stun:stun.l.google.com:19302' }] }
   signalRef = fb.fbdb.child('signaling');
-  userProfiles;
+  //userProfiles;
   userProfile;
   @observable smallVidRef;
   @observable largeVidRef;
   @observable calleeStream;
   @observable isCallee = false;
- /*  @observable stream = new MediaStream(); */
-  @observable onTrackStreams;
   iceStorage = [];
-  replyTo;
   constraints = {
     mandatory: {
       'OfferToReceiveAudio': true,
@@ -25,55 +21,40 @@ export class PeerStore {
     'offerToReceiveAudio': true,
     'offerToReceiveVideo': true
   }
+  rtcStream;
   constructor(uiStore, userStore) {
-    this.peer = new RTCPeerConnection(this.stunTurn);
-    fb.fbdb.child('users').on('value', (snap) => this.userProfiles = snap.val());
+    this.peer = new RTCPeerConnection({'iceServers':[{'urls':'stun:stun.l.google.com:19302'}]});
+    //fb.fbdb.child('users').on('value', (snap) => this.userProfiles = snap.val());
 
     this.signalRef.on('child_added', this.recvMsg.bind(this));
 
-   /*  Rx.Observable.fromEvent(this.peer, 'track')
-      .subscribe(event => console.log(event)) */
+    Rx.Observable.fromEvent(this.peer, 'track')
+      .subscribe(event => console.log(event.streams)) 
 
-    /* Rx.Observable.fromEvent(this.peer, 'addstream')
-      .subscribe(event => {
-	      console.log(event);
-	      console.log('add stream finally fired');
-	      this.addLgStream(event.stream);
-	    }); */
     Rx.Observable.fromEvent(this.peer, 'icecandidate')
       .subscribe(evt => evt.candidate ? this.sendPeerMsg(JSON.stringify({ 'ice': evt.candidate })) : console.log('end of ice'))
     
     Rx.Observable.fromEvent(this.peer, 'datachannel')
-      .subscribe(event => console.log(event))
+      .subscribe(event => console.log(event));
 
     Rx.Observable.fromEvent(this.peer, 'removestream')
-      .subscribe(event => console.log(event))
-
-    /* Rx.Observable.fromEvent(this.peer, 'signalingstatechange')
-      .subscribe(event => console.log(event))
-
-    Rx.Observable.fromEvent(this.peer, 'negotiationneeded')
-      .subscribe(event => console.log(event))
+      .subscribe(event => console.log(event));
 
     Rx.Observable.fromEvent(this.peer, 'iceconnectionstatechange')
-      .subscribe(event => console.log(event))
+      .subscribe(event => console.log(event));
 
-    Rx.Observable.fromEvent(this.peer, 'icegatheringstatechange')
-      .subscribe(event => console.log(event)) */
-
-      //this.peer.ontrack = this.streamAdder.bind(this);
       this.peer.ontrack = e => {
         console.log(e);
-        console.log('ontrack for remote stream');
-        this.addLargeVid(e.streams)
+        this.rtcStreams = e.streams;
+        this.addLargeVid(this.rtcStreams)
       };
   }
   @action addLargeVid(streams) {
     console.log(streams);
     this.largeVidRef.srcObject = streams[0];
-   // this.onTrackStreams = streams[0];
   }
-
+  hangUpOnPeer() {
+  }
   getLocalVideoFeed() {
     return navigator.mediaDevices.getUserMedia({audio:true, video: true})
   }
