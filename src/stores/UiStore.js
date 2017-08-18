@@ -4,8 +4,8 @@ import peerStore from './PeerStore';
 export class UiStore {
   @observable showVideo = false;
   constructor(peerStore) {
-    reaction(() => this.showVideo = false, val => {
-      this.peerStore.disconnectPeer();
+    reaction(() => this.showVideo == false, () => {
+      peerStore.disconnectPeer();
     })
   }
   @action openVideo() {

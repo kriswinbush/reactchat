@@ -50,13 +50,13 @@ export class PeerStore {
     this.rtcStreams = streams;
     this.largeVidRef.srcObject = streams[0];
   }
- 
-  disconnectPeer() {
+
+ @action disconnectPeer() {
     console.log('disconnect fired');
     console.log(this.rtcStreams);
     //stream.getTracks().forEach(track => track.stop());
     this.rtcStreams.geTracks().forEach(track => track.stop());
-    //connect ended event should be sent 
+    //connect ended event should be sent
     //this.peer = null -- is component completely removed from the DOM when exited???
   }
   getLocalVideoFeed() {
