@@ -29,11 +29,10 @@ export class PeerStore {
     this.signalRef.on('child_added', this.recvMsg.bind(this));
 
     Rx.Observable.fromEvent(this.peer, 'track')
-      .subscribe(event => console.log(event.streams)) 
+      .subscribe(event => console.log(event.streams))
 
     Rx.Observable.fromEvent(this.peer, 'icecandidate')
       .subscribe(evt => evt.candidate ? this.sendPeerMsg(JSON.stringify({ 'ice': evt.candidate })) : console.log('end of ice'))
-    
     Rx.Observable.fromEvent(this.peer, 'datachannel')
       .subscribe(event => console.log(event));
 
