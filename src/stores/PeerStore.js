@@ -56,7 +56,7 @@ export class PeerStore {
   hangUpOnPeer() {
   }
   getLocalVideoFeed() {
-    return navigator.mediaDevices.getUserMedia({audio:true, video: true})
+    return navigator.mediaDevices.getUserMedia({audio:true, video: {width: 1024, height: 576}})
   }
   sendPeerMsg(data) {
     let recv = userStore.caller || Object.keys(userStore.callee)[0];
@@ -111,10 +111,7 @@ export class PeerStore {
           .then(() => this.sendPeerMsg(JSON.stringify({ 'sdp': this.peer.localDescription })))
           .catch(err => console.log(err))
     } else if (message['sdp'] != undefined && message['sdp']['type'] == "answer") {
-      //debugger;
       this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp))
-        //.then(() => { this.iceStorage.forEach( icee => this.peer.addIceCandidate(new RTCIceCandidate(icee)) ) })
-        //.then(() =>  this.peer.getRemoteStreams()[0]);
     } else {
       console.log('fuck it')
     }
