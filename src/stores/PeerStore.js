@@ -21,7 +21,7 @@ export class PeerStore {
     'offerToReceiveAudio': true,
     'offerToReceiveVideo': true
   }
-  @observable rtcStreams;
+  rtcStreams;
   constructor(uiStore, userStore) {
     this.peer = new RTCPeerConnection({'iceServers':[{'urls':'stun:stun.l.google.com:19302'}]});
     //fb.fbdb.child('users').on('value', (snap) => this.userProfiles = snap.val());
