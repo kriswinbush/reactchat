@@ -46,22 +46,21 @@ export class PeerStore {
         this.addLargeVid(e.streams);
       };
   }
+  @action disconnectMyPeer() {
+    console.log('disconnect fired');
+    console.log(this.rtcStreams);
+    //stream.getTracks().forEach(track => track.stop());
+    this.rtcStreams.getTracks().forEach(track => track.stop());
+  }
   @action addLargeVid(streams) {
     this.rtcStreams = streams;
     this.largeVidRef.srcObject = streams[0];
   }
-
- @action disconnectPeer() {
-    console.log('disconnect fired');
-    console.log(this.rtcStreams);
-    //stream.getTracks().forEach(track => track.stop());
-    this.rtcStreams.geTracks().forEach(track => track.stop());
-    //connect ended event should be sent
-    //this.peer = null -- is component completely removed from the DOM when exited???
-  }
+ 
   getLocalVideoFeed() {
     return navigator.mediaDevices.getUserMedia({audio:true, video: {width: 1024, height: 576}})
   }
+
   sendPeerMsg(data) {
     let recv = userStore.caller || Object.keys(userStore.callee)[0];
     const msg = this.signalRef.push({
