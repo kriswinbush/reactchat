@@ -52,6 +52,8 @@ export class PeerStore {
   }
  
   disconnectPeer() {
+    console.log('disconnect fired');
+    console.log(this.rtcStreams);
     //stream.getTracks().forEach(track => track.stop());
     this.rtcStreams.geTracks().forEach(track => track.stop());
     //connect ended event should be sent 
