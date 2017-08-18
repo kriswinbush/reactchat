@@ -1,9 +1,13 @@
 import { action, reaction, observable, computed, toJS, ObservableMap } from 'mobx';
-
+import peerStore from './PeerStore';
 
 export class UiStore {
   @observable showVideo = false;
-  constructor() {}
+  constructor(peerStore) {
+    reaction(() => this.showVideo = false, val => {
+      this.peerStore.disconnectPeer();
+    })
+  }
   @action openVideo() {
       this.showVideo = true;
     }

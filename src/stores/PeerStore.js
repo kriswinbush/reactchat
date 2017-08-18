@@ -21,7 +21,7 @@ export class PeerStore {
     'offerToReceiveAudio': true,
     'offerToReceiveVideo': true
   }
-  rtcStream;
+  @observable rtcStreams;
   constructor(uiStore, userStore) {
     this.peer = new RTCPeerConnection({'iceServers':[{'urls':'stun:stun.l.google.com:19302'}]});
     //fb.fbdb.child('users').on('value', (snap) => this.userProfiles = snap.val());
@@ -43,16 +43,19 @@ export class PeerStore {
       .subscribe(event => console.log(event));
 
       this.peer.ontrack = e => {
-        console.log(e);
-        this.rtcStreams = e.streams;
-        this.addLargeVid(this.rtcStreams)
+        this.addLargeVid(e.streams);
       };
   }
   @action addLargeVid(streams) {
-    console.log(streams);
+    this.rtcStreams = streams;
     this.largeVidRef.srcObject = streams[0];
   }
-  hangUpOnPeer() {
+ 
+  disconnectPeer() {
+    //stream.getTracks().forEach(track => track.stop());
+    this.rtcStreams.geTracks().forEach(track => track.stop());
+    //connect ended event should be sent 
+    //this.peer = null -- is component completely removed from the DOM when exited???
   }
   getLocalVideoFeed() {
     return navigator.mediaDevices.getUserMedia({audio:true, video: {width: 1024, height: 576}})
