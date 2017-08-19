@@ -41,13 +41,18 @@ export class PeerStore {
     Rx.Observable.fromEvent(this.peer, 'signalingstatechange')
       .subscribe(event =>{ 
         console.log('signal state changed event: ', event);
-        console.log('signal state changed event -signalingState: ', event.signalingState);
-        console.log('signal state changed event -iceConnectionState: ', event.iceConnectionState);
-        console.log('signal state changed event -iceGatheringState: ', event.iceGatheringState);
+        console.log('signal state changed event -signalingState: ', event.target.signalingState);
+        console.log('signal state changed event -iceConnectionState: ', event.target.iceConnectionState);
+        console.log('signal state changed event -iceGatheringState: ', event.target.iceGatheringState);
       });
 
     Rx.Observable.fromEvent(this.peer, 'iceconnectionstatechange')
-      .subscribe(event => console.log('ice connection state changed event: ',event));
+      .subscribe(event => {
+        if(event.target.iceConnectionState == 'disconnect' || event.target.iceConnectionState == 'failed') {
+          uiStore.closeVideo(); 
+        }
+        console.log('ice connection state changed event: ',event)
+      });
 
     Rx.Observable.fromEvent(this.peer, 'connectionstatechange')
       .subscribe(event => console.log('connection state changed event: ', event));
@@ -56,11 +61,12 @@ export class PeerStore {
   }
 
   disconnectMyPeer() {
-    if(this.peer.signalingState != 'closed') {
+    if(this.peer && this.peer.signalingState != 'closed') {
       this.rtcStreams.getTracks().forEach(track => track.stop());
       this.peer.close();
+      this.peer = null;
     } else {
-      console.log('peer connection is already in closed state');
+      console.log('peer connection closed');
     }
     
   }
@@ -75,7 +81,7 @@ export class PeerStore {
   }
  
   getLocalVideoFeed() {
-    if(this.peer.signalingState === 'closed') {
+    if(!this.peer || this.peer.signalingState === 'closed') {
       this.peerInit();
     }
     return navigator.mediaDevices.getUserMedia({audio:true, video: {width: 1024, height: 576}})
@@ -98,7 +104,7 @@ export class PeerStore {
   makePeerConnection(email) {
     userStore.findCalleeByEmail(email)
       .then(() =>{ 
-        uiStore.openVideo(); // might be a race condition ???
+        uiStore.openVideo();
         return this.getLocalVideoFeed()
       })
       .then((stream) =>{
