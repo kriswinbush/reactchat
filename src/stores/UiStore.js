@@ -3,14 +3,12 @@ import peerStore from './PeerStore';
 
 export class UiStore {
   @observable showVideo = false;
-  constructor(peerStore) {
-    console.log(peerStore);
-  }
+  constructor() {}
   @action openVideo() {
       this.showVideo = true;
     }
   @action closeVideo() {
-    this.peerStore.disconnectMyPeer()
+    peerStore.disconnectMyPeer();
     this.showVideo = false;
   }
 }

@@ -6,7 +6,6 @@ import Rx from 'rxjs';
 
 export class PeerStore {
   signalRef = fb.fbdb.child('signaling');
-  //userProfiles;
   userProfile;
   @observable smallVidRef;
   @observable largeVidRef;
@@ -22,6 +21,7 @@ export class PeerStore {
     'offerToReceiveVideo': true
   }
   rtcStreams;
+
   constructor(uiStore, userStore) {
     this.peer = new RTCPeerConnection({'iceServers':[{'urls':'stun:stun.l.google.com:19302'}]});
     //fb.fbdb.child('users').on('value', (snap) => this.userProfiles = snap.val());
@@ -46,14 +46,14 @@ export class PeerStore {
         this.addLargeVid(e.streams);
       };
   }
-  @action disconnectMyPeer() {
-    console.log('disconnect fired');
-    console.log(this.rtcStreams);
-    //stream.getTracks().forEach(track => track.stop());
+
+  disconnectMyPeer() {
+    console.log(this.rtcStreams)
     this.rtcStreams.getTracks().forEach(track => track.stop());
   }
+
   @action addLargeVid(streams) {
-    this.rtcStreams = streams;
+    this.rtcStreams = window.rtcStreamRef = streams[0];
     this.largeVidRef.srcObject = streams[0];
   }
  
@@ -70,9 +70,11 @@ export class PeerStore {
     })
     msg.remove();
   }
+
   @action setIsCallee(val) {
     this.callee = val;
   }
+
   makePeerConnection(email) {
     userStore.findCalleeByEmail(email)
       .then(() =>{ 
@@ -88,6 +90,7 @@ export class PeerStore {
       .then(() => this.sendPeerMsg(JSON.stringify({ 'sdp': this.peer.localDescription })))
       .catch(err => console.log(err));
   }
+
   @action recvMsg(data) {
     let { message, receiver, sender } = data.val();
     message = JSON.parse(message);
@@ -120,6 +123,7 @@ export class PeerStore {
     }
   }
 }
+
 }
 const peerStore = window.peerStore = new PeerStore();
 export default peerStore;
