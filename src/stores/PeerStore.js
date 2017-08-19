@@ -49,7 +49,9 @@ export class PeerStore {
     Rx.Observable.fromEvent(this.peer, 'iceconnectionstatechange')
       .subscribe(event => {
         if(event.target.iceConnectionState == 'disconnect' || event.target.iceConnectionState == 'failed') {
-          uiStore.closeVideo(); 
+          console.log(this);
+          console.log(uiStore);
+          this.uiStore.closeVideo();
         }
         console.log('ice connection state changed event: ',event)
       });
