@@ -23,6 +23,8 @@ export class PeerStore {
   rtcStreams;
 
   constructor(uiStore, userStore) {
+    this.uiStore = uiStore;
+    this.userStore = userStore;
     this.peerInit();
 
     this.signalRef.on('child_added', this.recvMsg.bind(this));
