@@ -126,7 +126,7 @@ export class PeerStore {
         console.log('ice firing off correctly')
         this.iceStorage.push(message.ice)
       } else if (message['sdp'] != undefined && message['sdp']['type'] == "offer") {
-        if(this.peer.signalingState === 'closed') {
+        if(!this.peer || this.peer.signalingState === 'closed') {
           this.peerInit();
         }
         userStore.caller = sender;
