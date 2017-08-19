@@ -23,33 +23,38 @@ export class PeerStore {
   rtcStreams;
 
   constructor(uiStore, userStore) {
-    this.peer = new RTCPeerConnection({'iceServers':[{'urls':'stun:stun.l.google.com:19302'}]});
-    //fb.fbdb.child('users').on('value', (snap) => this.userProfiles = snap.val());
+    this.peerInit();
 
     this.signalRef.on('child_added', this.recvMsg.bind(this));
 
-    Rx.Observable.fromEvent(this.peer, 'track')
-      .subscribe(event => console.log(event.streams))
+    Rx.Observable.fromEvent(this.peer, 'track').subscribe(evt => this.addLargeVid(evt.streams));
 
-    Rx.Observable.fromEvent(this.peer, 'icecandidate')
-      .subscribe(evt => evt.candidate ? this.sendPeerMsg(JSON.stringify({ 'ice': evt.candidate })) : console.log('end of ice'))
+    Rx.Observable.fromEvent(this.peer, 'icecandidate').subscribe(evt => evt.candidate ? ( 
+      this.sendPeerMsg(JSON.stringify({ 'ice': evt.candidate }))  
+    ):( 
+      console.log('end of ice')) 
+    );
+
     Rx.Observable.fromEvent(this.peer, 'datachannel')
-      .subscribe(event => console.log(event));
+      .subscribe(event => console.log('data channel event fired: ',event));
 
-    Rx.Observable.fromEvent(this.peer, 'removestream')
-      .subscribe(event => console.log(event));
+    Rx.Observable.fromEvent(this.peer, 'signalstatechange')
+      .subscribe(event => console.log('signal state changed event: ', event));
 
     Rx.Observable.fromEvent(this.peer, 'iceconnectionstatechange')
-      .subscribe(event => console.log(event));
+      .subscribe(event => console.log('ice connection state changed event: ',event));
 
-      this.peer.ontrack = e => {
-        this.addLargeVid(e.streams);
-      };
+    Rx.Observable.fromEvent(this.peer, 'connectionstatechange')
+      .subscribe(event => console.log('connection state changed event: ', event));
   }
 
   disconnectMyPeer() {
-    console.log(this.rtcStreams)
     this.rtcStreams.getTracks().forEach(track => track.stop());
+    this.peer.close();
+  }
+
+  peerInit() {
+    this.peer = new RTCPeerConnection({'iceServers':[{'urls':'stun:stun.l.google.com:19302'}]});
   }
 
   @action addLargeVid(streams) {
@@ -58,6 +63,9 @@ export class PeerStore {
   }
  
   getLocalVideoFeed() {
+    if(this.peer.connectionState === 'closed') {
+      this.peerInit();
+    }
     return navigator.mediaDevices.getUserMedia({audio:true, video: {width: 1024, height: 576}})
   }
 
@@ -100,6 +108,9 @@ export class PeerStore {
         console.log('ice firing off correctly')
         this.iceStorage.push(message.ice)
       } else if (message['sdp'] != undefined && message['sdp']['type'] == "offer") {
+        if(this.peer.connectionState === 'closed') {
+          this.peerInit();
+        }
         userStore.caller = sender;
         this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp))
           .then(() => { 
