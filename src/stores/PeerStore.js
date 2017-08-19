@@ -38,7 +38,7 @@ export class PeerStore {
     Rx.Observable.fromEvent(this.peer, 'datachannel')
       .subscribe(event => console.log('data channel event fired: ',event));
 
-    Rx.Observable.fromEvent(this.peer, 'signalstatechange')
+    Rx.Observable.fromEvent(this.peer, 'signalingstatechange')
       .subscribe(event => console.log('signal state changed event: ', event));
 
     Rx.Observable.fromEvent(this.peer, 'iceconnectionstatechange')
@@ -113,8 +113,8 @@ export class PeerStore {
         console.log('ice firing off correctly')
         this.iceStorage.push(message.ice)
       } else if (message['sdp'] != undefined && message['sdp']['type'] == "offer") {
-        if(this.peer.connectionState === 'closed') {
-          this.peerInit();f
+        if(this.peer.signalingState === 'closed') {
+          this.peerInit();
         }
         userStore.caller = sender;
         this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp))
