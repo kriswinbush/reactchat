@@ -49,8 +49,13 @@ export class PeerStore {
   }
 
   disconnectMyPeer() {
-    this.rtcStreams.getTracks().forEach(track => track.stop());
-    this.peer.close();
+    if(this.peer.signalingState != 'closed') {
+      this.rtcStreams.getTracks().forEach(track => track.stop());
+      this.peer.close();
+    } else {
+      console.log('peer connection is already in closed state');
+    }
+    
   }
 
   peerInit() {
@@ -63,7 +68,7 @@ export class PeerStore {
   }
  
   getLocalVideoFeed() {
-    if(this.peer.connectionState === 'closed') {
+    if(this.peer.signalingState === 'closed') {
       this.peerInit();
     }
     return navigator.mediaDevices.getUserMedia({audio:true, video: {width: 1024, height: 576}})
@@ -109,7 +114,7 @@ export class PeerStore {
         this.iceStorage.push(message.ice)
       } else if (message['sdp'] != undefined && message['sdp']['type'] == "offer") {
         if(this.peer.connectionState === 'closed') {
-          this.peerInit();
+          this.peerInit();f
         }
         userStore.caller = sender;
         this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp))
