@@ -39,13 +39,20 @@ export class PeerStore {
       .subscribe(event => console.log('data channel event fired: ',event));
 
     Rx.Observable.fromEvent(this.peer, 'signalingstatechange')
-      .subscribe(event => console.log('signal state changed event: ', event));
+      .subscribe(event =>{ 
+        console.log('signal state changed event: ', event);
+        console.log('signal state changed event -signalingState: ', event.signalingState);
+        console.log('signal state changed event -iceConnectionState: ', event.iceConnectionState);
+        console.log('signal state changed event -iceGatheringState: ', event.iceGatheringState);
+      });
 
     Rx.Observable.fromEvent(this.peer, 'iceconnectionstatechange')
       .subscribe(event => console.log('ice connection state changed event: ',event));
 
     Rx.Observable.fromEvent(this.peer, 'connectionstatechange')
       .subscribe(event => console.log('connection state changed event: ', event));
+    Rx.Observable.fromEvent(this.peer, 'negotiationneeded')
+      .subscribe(event => console.log('negotiation needed event: ', event));
   }
 
   disconnectMyPeer() {
