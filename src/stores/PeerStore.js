@@ -23,8 +23,6 @@ export class PeerStore {
   rtcStreams;
 
   constructor(uiStore, userStore) {
-    this.uiStore = uiStore;
-    this.userStore = userStore;
     this.peerInit();
 
     this.signalRef.on('child_added', this.recvMsg.bind(this));
@@ -51,9 +49,8 @@ export class PeerStore {
     Rx.Observable.fromEvent(this.peer, 'iceconnectionstatechange')
       .subscribe(event => {
         if(event.target.iceConnectionState == 'disconnect' || event.target.iceConnectionState == 'failed') {
-          console.log(this);
-          console.log(uiStore);
-          this.uiStore.closeVideo();
+          this.closeVidNExit();
+          console.log(this); 
         }
         console.log('ice connection state changed event: ',event)
       });
@@ -62,6 +59,9 @@ export class PeerStore {
       .subscribe(event => console.log('connection state changed event: ', event));
     Rx.Observable.fromEvent(this.peer, 'negotiationneeded')
       .subscribe(event => console.log('negotiation needed event: ', event));
+  }
+  closeVidNExit() {
+    uiStore.closeVideo();
   }
 
   disconnectMyPeer() {
