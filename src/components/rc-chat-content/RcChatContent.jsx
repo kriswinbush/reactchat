@@ -26,8 +26,8 @@ export default class RcChatContent extends Component {
   }
   componentDidMount() {}
   render() {
-    let url = "https://placeimg.com/640/480/tech";
-    const pix = ['transport', 'nature', 'fashion', 'nightlife', 'food', 'sports', 'technics', 'animals', 'cats', 'city', 'people', 'abstract', 'business'];
+    let url = "https://placeimg.com/640/480";
+    const pix = ['tech', 'nature', 'people', 'architecture', 'animals'];
     const {filteredChatMessages, chatMessages} = this.props.stores.chatStore    
     return (
       <div className="rc-chat-content-container">
@@ -43,13 +43,13 @@ export default class RcChatContent extends Component {
                 <ListItem
                   key={id}
                   leftAvatar={<Avatar src={`${url}/${pix[Math.floor(Math.random() * pix.length)]}`} />}
-                  rightIconButton={<RightIconMenu chat={msg} />}
                   primaryText={msg.user}
+                  rightIconButton={<RightIconMenu chat={msg} />}
                   secondaryText={
-                    <p>
+                    <span>
                       <span style={{ color: darkBlack }}>{msg.group}</span><br />
                       {msg.msg}
-                    </p>
+                    </span>
                   }
                   secondaryTextLines={2}
                 />
