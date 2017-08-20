@@ -9,11 +9,10 @@ export class UiStore {
     }
   @action closeVideo() {
     //peerStore.disconnectMyPeer();
-    return new Promise(function(res, rej){
+    return new Promise((res, rej) =>{
       this.showVideo = false;
       res();
     })
-    
   }
 }
 const uiStore = window.uiStore = new UiStore();
