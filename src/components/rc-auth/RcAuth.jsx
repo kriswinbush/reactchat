@@ -51,7 +51,7 @@ export default class RcAuth extends React.Component {
             <CardMedia
               overlay={<CardTitle title="Sign in" subtitle="Login to your account or Sign up with email and password" />}
             >
-              <img src="https://placeimg.com/640/480/any" alt="" />
+              <img src="https://placeimg.com/640/240/any" alt="" />
             </CardMedia>
             <CardText>{this.auth.errorMessage}</CardText>
             <CardActions>

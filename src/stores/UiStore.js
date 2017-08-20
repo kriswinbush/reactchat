@@ -8,8 +8,12 @@ export class UiStore {
       this.showVideo = true;
     }
   @action closeVideo() {
-    peerStore.disconnectMyPeer();
-    this.showVideo = false;
+    //peerStore.disconnectMyPeer();
+    return new Promise(function(res, rej){
+      this.showVideo = false;
+      res();
+    })
+    
   }
 }
 const uiStore = window.uiStore = new UiStore();

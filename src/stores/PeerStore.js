@@ -48,22 +48,45 @@ export class PeerStore {
 
     Rx.Observable.fromEvent(this.peer, 'iceconnectionstatechange')
       .subscribe(event => {
-        if(event.target.iceConnectionState == 'disconnect' || event.target.iceConnectionState == 'failed') {
-          this.closeVidNExit();
+        /* if(event.target.iceConnectionState == 'disconnect' || event.target.iceConnectionState == 'failed') {
+          this.closeVidNExit()
+            .then(()=> this.disconnectMyPeer());
           console.log(this); 
-        }
+        } */
         console.log('ice connection state changed event: ',event)
       });
 
     Rx.Observable.fromEvent(this.peer, 'connectionstatechange')
-      .subscribe(event => console.log('connection state changed event: ', event));
+      .subscribe(event => {
+        console.log('connection state changed event: ', event);
+        switch(this.peer.connectionState) {
+          case "connected":
+            console.log('the conectionstate is stable');
+            break;
+          case "disconnected":
+          case "failed":
+            // One or more transports has terminated unexpectedly or in an error
+            console.log('connection state failed || disconeected')
+            break;
+          case "closed":
+            // The connection has been closed
+            this.closeVidNExit()
+            .then(()=> this.disconnectMyPeer());
+            break;
+        }
+
+      });
 
     Rx.Observable.fromEvent(this.peer, 'negotiationneeded')
       .subscribe(event => console.log('negotiation needed event: ', event));
 
+      this.peer.onconnectionstatechange = function(state){
+        console.log('connection state change state event', state);
+      }
+
   }
   closeVidNExit() {
-    uiStore.closeVideo();
+    return uiStore.closeVideo();
   }
 
   disconnectMyPeer() {
@@ -108,6 +131,10 @@ export class PeerStore {
   }
 
   makePeerConnection(email) {
+    console.log(this.peer.connectionstate);
+    if(!this.peer) {
+      this.peerInit();
+    }
     userStore.findCalleeByEmail(email)
       .then(() =>{ 
         uiStore.openVideo();
