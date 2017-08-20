@@ -57,8 +57,10 @@ export class PeerStore {
 
     Rx.Observable.fromEvent(this.peer, 'connectionstatechange')
       .subscribe(event => console.log('connection state changed event: ', event));
+
     Rx.Observable.fromEvent(this.peer, 'negotiationneeded')
       .subscribe(event => console.log('negotiation needed event: ', event));
+      
   }
   closeVidNExit() {
     uiStore.closeVideo();
