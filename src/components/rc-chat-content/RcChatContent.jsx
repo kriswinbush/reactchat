@@ -26,7 +26,7 @@ export default class RcChatContent extends Component {
   }
   componentDidMount() {}
   render() {
-    let url = "http://lorempixel.com/400/200";
+    let url = "https://placeimg.com/640/480/tech";
     const pix = ['transport', 'nature', 'fashion', 'nightlife', 'food', 'sports', 'technics', 'animals', 'cats', 'city', 'people', 'abstract', 'business'];
     const {filteredChatMessages, chatMessages} = this.props.stores.chatStore    
     return (

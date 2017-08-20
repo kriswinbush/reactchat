@@ -18,7 +18,7 @@ class RcSplash extends React.Component {
     render() {
         let content = this.state.loading ? (
             <div className="rc-center-image">
-                <img src='http://loremflickr.com/320/240/' />
+                <img src='https://placeimg.com/640/480/any' />
             </div>
         ) : (
             <div>

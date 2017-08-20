@@ -154,7 +154,7 @@ export class PeerStore {
     } else if (message['sdp'] != undefined && message['sdp']['type'] == "answer") {
       this.peer.setRemoteDescription(new RTCSessionDescription(message.sdp))
     } else {
-      console.log('fuck it')
+      console.log('I have no idea')
     }
   }
 }

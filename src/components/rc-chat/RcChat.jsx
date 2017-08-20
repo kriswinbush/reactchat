@@ -19,11 +19,9 @@ export default class RcChat extends Component {
     }
     this.onSubmit = this.onSubmit.bind(this);
   }
-  onSubmit(e) {
-    e.preventDefault();
-    console.log(e);
+  onSubmit(evt) {
+    evt.preventDefault();
   }
-  componentDidMount() {}
   render() {
     return (
       <Provider chats={stores.chatStore}>
@@ -37,13 +35,3 @@ export default class RcChat extends Component {
     )
   }
 }
-const RcHome = withRouter((props) => {
-  console.log(props)
-  return (
-    <div className='rc-main-container'>
-      <h1>Damn final made it home</h1>
-        <RaisedButton label="Sign Out" primary={true} onClick={() => fire.auth().signOut().then(() => props.history.push('/'))} />
-        <RaisedButton label="Sign Out" primary={true} onClick={() => props.history.push('/')} />
-    </div>
-  )
-})

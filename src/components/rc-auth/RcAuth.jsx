@@ -39,7 +39,6 @@ export default class RcAuth extends React.Component {
       break;
       case 'logout':
         this.auth.signOut()
-          /* .then((e) => console.log('sign out complete', e)) */
       break;
     }
   }
@@ -52,7 +51,7 @@ export default class RcAuth extends React.Component {
             <CardMedia
               overlay={<CardTitle title="Sign in" subtitle="Login to your account or Sign up with email and password" />}
             >
-              <img src="http://lorempixel.com/400/200" alt="" />
+              <img src="https://placeimg.com/640/480/any" alt="" />
             </CardMedia>
             <CardText>{this.auth.errorMessage}</CardText>
             <CardActions>

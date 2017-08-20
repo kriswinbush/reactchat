@@ -14,7 +14,7 @@ export default class RcChatBubble extends Component {
     return (
       <li className="rc-chat-bubble-container">
         <div className="chat-bubble-avatar">
-          <Avatar size={30} src="http://lorempixel.com/400/200/cats" />
+          <Avatar size={30} src="https://placeimg.com/640/480/nature" />
         </div>
         <div className="chat-bubble-text">
           <header>from some user</header>

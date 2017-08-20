@@ -11,17 +11,12 @@ import ContentAdd from 'material-ui/svg-icons/content/add';
 export default class RcCallGroup extends Component {
   constructor(props) {
     super(props);
-    //this.state = {}
-    //icon={<AvVideoCall />}
     this.style = {
       margin: '10px',
       large: {
         color: '#26333b'
       },
     }
-  }
-  conponentDidMount() {
-
   }
   render() {
     return (
@@ -38,10 +33,10 @@ export default class RcCallGroup extends Component {
         
 
         <div className="flex-spacer"></div>
-        <Avatar src="http://lorempixel.com/400/200/transport" style={this.style} />
-        <Avatar src="http://lorempixel.com/400/200/technics" style={this.style} />
-        <Avatar src="http://lorempixel.com/400/200/fashion" style={this.style} />
-        <Avatar src="http://lorempixel.com/400/200/cats" style={this.style} />
+        <Avatar src="https://placeimg.com/640/480/any" style={this.style} />
+        <Avatar src="https://placeimg.com/640/480/animals" style={this.style} />
+        <Avatar src="https://placeimg.com/640/480/architecture" style={this.style} />
+        <Avatar src="https://placeimg.com/640/480/people" style={this.style} />
         <FloatingActionButton mini={true} secondary={true} style={this.style}>
           <ContentAdd />
         </FloatingActionButton>

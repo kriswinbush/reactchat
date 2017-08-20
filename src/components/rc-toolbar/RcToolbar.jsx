@@ -31,6 +31,9 @@ export default class RcToolbar extends Component {
       <div className="rc-toolbar-container">
         <Toolbar>
           <ToolbarGroup firstChild={true}>
+          <ToolbarTitle text="Rx Chat" />
+          </ToolbarGroup>
+          <ToolbarGroup>
             <DropDownMenu value={this.state.ddValue} onChange={this.handleChange}>
               <MenuItem value={1} primaryText="New File" />
               <MenuItem value={2} primaryText="Open File" />
@@ -41,13 +44,9 @@ export default class RcToolbar extends Component {
               <MenuItem value={7} primaryText="Close Window" />
               <MenuItem value={8} primaryText="Exit" />
             </DropDownMenu>
-          </ToolbarGroup>
-          <ToolbarGroup>
-            <ToolbarTitle text="Options" />
-            <FontIcon className="muidocs-icon-custom-sort" />
-            <FontIcon className="material-icons" style={iconStyles} color={blue500}>videogame_asset</FontIcon>
             <ToolbarSeparator />
-            <RaisedButton label="Create Broadcast" primary={true} />
+            <RaisedButton label="Broadcast" primary={true} />
+            <ToolbarSeparator />
             <IconMenu
               iconButtonElement={
                 <IconButton touch={true}>

@@ -22,27 +22,27 @@ export default class RcRecentContacts extends Component {
             <Subheader>Recent chats</Subheader>
             <ListItem
               primaryText="Brendan Lim"
-              leftAvatar={<Avatar src="http://lorempixel.com/400/200/city" />}
+              leftAvatar={<Avatar src="https://placeimg.com/640/480/nature" />}
               rightIcon={<CommunicationChatBubble />}
             />
             <ListItem
               primaryText="Chris Collins"
-              leftAvatar={<Avatar src="http://lorempixel.com/400/200/animals" />}
+              leftAvatar={<Avatar src="https://placeimg.com/640/480/any" />}
               rightIcon={<CommunicationChatBubble />}
             />
             <ListItem
               primaryText="Grace Ng"
-              leftAvatar={<Avatar src="http://lorempixel.com/400/200/cats" />}
+              leftAvatar={<Avatar src="https://placeimg.com/640/480/people" />}
               rightIcon={<CommunicationChatBubble />}
             />
             <ListItem
               primaryText="Kerem Suer"
-              leftAvatar={<Avatar src="http://lorempixel.com/400/200/technics" />}
+              leftAvatar={<Avatar src="https://placeimg.com/640/480/tech" />}
               rightIcon={<CommunicationChatBubble />}
             />
             <ListItem
               primaryText="Raquel Parrado"
-              leftAvatar={<Avatar src="http://lorempixel.com/400/200/people" />}
+              leftAvatar={<Avatar src="https://placeimg.com/640/480/architecture" />}
               rightIcon={<CommunicationChatBubble />}
             />
           </List>
@@ -51,11 +51,11 @@ export default class RcRecentContacts extends Component {
             <Subheader>Previous chats</Subheader>
             <ListItem
               primaryText="Chelsea Otakan"
-              leftAvatar={<Avatar src="http://lorempixel.com/400/200/nightlife" />}
+              leftAvatar={<Avatar src="https://placeimg.com/640/480/nature" />}
             />
             <ListItem
               primaryText="James Anderson"
-              leftAvatar={<Avatar src="http://lorempixel.com/400/200/transport" />}
+              leftAvatar={<Avatar src="https://placeimg.com/640/480/tech" />}
             />
           </List>
         </Tab>
@@ -64,22 +64,22 @@ export default class RcRecentContacts extends Component {
             <ListItem
               primaryText="Chelsea Otakan"
               leftIcon={<ActionGrade color={pinkA200} />}
-              rightAvatar={<Avatar src="http://lorempixel.com/400/200/people" />}
+              rightAvatar={<Avatar src="https://placeimg.com/640/480/any" />}
             />
             <ListItem
               primaryText="Eric Hoffman"
               insetChildren={true}
-              rightAvatar={<Avatar src="http://lorempixel.com/400/200/cats" />}
+              rightAvatar={<Avatar src="https://placeimg.com/640/480/nature" />}
             />
             <ListItem
               primaryText="James Anderson"
               insetChildren={true}
-              rightAvatar={<Avatar src="http://lorempixel.com/400/200/abstract" />}
+              rightAvatar={<Avatar src="https://placeimg.com/640/480/people" />}
             />
             <ListItem
               primaryText="Kerem Suer"
               insetChildren={true}
-              rightAvatar={<Avatar src="http://lorempixel.com/400/200/business" />}
+              rightAvatar={<Avatar src="https://placeimg.com/640/480/tech" />}
             />
           </List>
           <Divider inset={true} />
@@ -94,22 +94,22 @@ export default class RcRecentContacts extends Component {
                   A
                 </Avatar>
               }
-              rightAvatar={<Avatar src="http://lorempixel.com/400/200/fashion" />}
+              rightAvatar={<Avatar src="https://placeimg.com/640/480/nature" />}
             />
             <ListItem
               primaryText="Adham Dannaway"
               insetChildren={true}
-              rightAvatar={<Avatar src="http://lorempixel.com/400/200/transport" />}
+              rightAvatar={<Avatar src="https://placeimg.com/640/480/any" />}
             />
             <ListItem
               primaryText="Allison Grayce"
               insetChildren={true}
-              rightAvatar={<Avatar src="http://lorempixel.com/400/200/technics" />}
+              rightAvatar={<Avatar src="https://placeimg.com/640/480/tech" />}
             />
             <ListItem
               primaryText="Angel Ceballos"
               insetChildren={true}
-              rightAvatar={<Avatar src="http://lorempixel.com/400/200/sports" />}
+              rightAvatar={<Avatar src="https://placeimg.com/640/480/architecture" />}
             />
           </List>
         </Tab>

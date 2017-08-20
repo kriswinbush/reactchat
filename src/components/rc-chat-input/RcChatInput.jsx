@@ -55,8 +55,6 @@ export default class RcChatInput extends Component {
                   <RaisedButton type="submit" label="Send" primary={true} fullWidth={true} />
                 </fieldset>
               </div>
-              {/* <div>{this.state.user}</div> */}
-              {/* <div className="flex-spacer"></div>  */}
             </div>
           </form>
         </div>
