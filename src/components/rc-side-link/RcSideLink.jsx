@@ -7,65 +7,66 @@ import { inject, Provider, observer } from 'mobx-react';
 export default class RcSideLink extends Component {
   constructor(props) {
     super(props);
-    this.auth = this.props.stores.authStore;
-    this.state = {};
     this.clickHandler = this.clickHandler.bind(this);
     this.homeHandler = this.homeHandler.bind(this);
+    this.menuHandler = this.menuHandler.bind(this);
   }
-  componentDidMount() {
 
-  }
   homeHandler() {
     this.props.stores.routing.push('/auth')
   }
-  clickHandler(event){
-    var { target } = event;
-    event.preventDefault();
-    this.auth.signOut();
+
+  clickHandler(){
+    this.props.stores.authStore.signOut();
   }
+
+  menuHandler() {
+    this.props.stores.uiStore.toggleSideContainer();
+  }
+
   render() {
     return (
       <div className="rc-side-link-container">
         <ul>
-          <li id='home'>
+          <li id='menu'>
             <IconButton
               iconStyle={{color:'green'}}
               iconClassName="material-icons"
-              tooltip="Home"
-              onClick={this.homeHandler}
-              name='home'
-            >home</IconButton>
+              tooltip="Contact Menu"
+              onClick={this.menuHandler}
+              name='Contacts'
+            >menu</IconButton>
           </li>
           <li></li>
-          <li id='video' name='video' onClick={this.clickHandler}>
+          <li id='home' name='video' onClick={this.clickHandler}>
             <IconButton
               iconStyle={{color:'white'}}
               iconClassName="material-icons"
-              tooltip="Video Call"
-            >video_call</IconButton>
+              tooltip="home"
+            >home</IconButton>
           </li>
-          <li id='private' name='private' onClick={this.clickHandler}>
+          <li id='private' name='private'>
             <IconButton
               iconStyle={{color:'white'}}
               iconClassName="material-icons"
               tooltip="Private Chat"
             >chat</IconButton>
           </li>
-          <li id='screen' name='screen' onClick={this.clickHandler}>
+          <li id='screen' name='screen'>
             <IconButton
               iconStyle={{color:'white'}}
               iconClassName="material-icons"
               tooltip="Screen Share"
             >screen_share</IconButton>
           </li>
-          <li id='voice' name='voice' onClick={this.clickHandler}>
+          <li id='voice' name='voice'>
             <IconButton
               iconStyle={{color:'white'}}
               iconClassName="material-icons"
               tooltip="Call"
             >call</IconButton>
           </li>
-          <li id='settings' name='settings' onClick={this.clickHandler}>
+          <li id='settings' name='settings'>
             <IconButton
               iconStyle={{color:'white'}}
               iconClassName="material-icons"
