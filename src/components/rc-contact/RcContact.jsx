@@ -8,21 +8,19 @@ import { TweenMax, Bounce } from 'gsap';
 export default class RcContact extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      opened: false
-    }
+    this.state = { opened: false};
     this.animeDiv;
     this.handler = this.handler.bind(this);
   }
-  componentDidMount() {
 
-  }
+  componentDidMount() {}
+
   handler(evt) {
     let anime = this.state.opened ? ( 
-      TweenMax.to(this.animeDiv,3,{opacity:1,right:0}).reverse(),
+      TweenMax.to(this.animeDiv,1,{opacity:1,right:0}).reverse(),
       this.setState({opened:false})
     ):( 
-      TweenMax.to(this.animeDiv,3,{opacity:1,right:100}),
+      TweenMax.to(this.animeDiv,1,{opacity:1,right:100}),
       this.setState({opened:true})
     )
   }

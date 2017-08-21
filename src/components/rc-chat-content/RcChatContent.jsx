@@ -21,10 +21,11 @@ export default class RcChatContent extends Component {
     super(props);
     this.eventHandler = this.eventHandler.bind(this);
   }
-  eventHandler(event) {
-    console.log(event)
+  eventHandler(evt) {
+    evt.preventDefault();
   }
   componentDidMount() {}
+ 
   render() {
     let url = "https://placeimg.com/640/480";
     const pix = ['tech', 'nature', 'people', 'architecture', 'animals'];
@@ -33,31 +34,29 @@ export default class RcChatContent extends Component {
       <div className="rc-chat-content-container">
         <h1>Convo</h1>
         <div className="content-list">
-          <List>
-            <Subheader>Today</Subheader>
-            <Divider inset={true} />
-
-            {chatMessages.entries().map((chat, id) => {
+          <ul>
+          {chatMessages.entries().map((chat, id) => {
               const {msg} = chat[1];
               return (
-                <ListItem
-                  key={id}
-                  leftAvatar={<Avatar src={`${url}/${pix[Math.floor(Math.random() * pix.length)]}`} />}
-                  primaryText={msg.user}
-                  rightIconButton={<RightIconMenu chat={msg} />}
-                  secondaryText={
-                    <span>
-                      <span style={{ color: darkBlack }}>{msg.group}</span><br />
-                      {msg.msg}
+                <li key={id}>
+                  <div className="chat-bubble-container">
+                    <span className="left-avatar">
+                      <Avatar src={`${url}/${pix[Math.floor(Math.random() * pix.length)]}`} />
                     </span>
-                  }
-                  secondaryTextLines={2}
-                />
+                    <div>
+                      <div>{msg.user}</div>
+                      <div>{msg.group}</div>
+                    </div>
+                    <div className="chat-msg"><h3>{msg.msg}</h3></div>
+                    <div className='flex-spacer'></div>
+                    <span className="right-menu">
+                      <RightIconMenu chat={msg}/>
+                    </span>
+                  </div>
+                </li>
               )
             }).reverse()}
-            <Subheader>Yesterday</Subheader>
-            <Divider inset={true} />
-          </List>
+          </ul>
         </div>
       </div>
     )

@@ -12,6 +12,36 @@
     width: 100%;
     z-index: 9999;
 }
+@media #{$desktop} {
+  .rc-main-container {
+    display: grid;
+    grid-template-columns:1fr 400px;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas:
+    "main-content right-sidebar"
+    "main-content right-sidebar"
+    "main-content right-sidebar";
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+  }
+}
+
+@media #{$tablet} {
+  .rc-main-container {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-template-areas:
+    "left-sidebar main-content"
+    "left-sidebar main-content"
+    "left-sidebar main-content";
+    height: 100%;
+    width: 100%;
+    z-index: 9999;
+  }    
+}
+
 @media #{$mobile} {
   .rc-main-container {
     display: grid;

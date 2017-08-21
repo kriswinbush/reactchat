@@ -34,8 +34,9 @@ export default class RightIconMenu extends Component {
 const iconButtonElement = (
   <IconButton
     touch={true}
-    tooltip="more"
-    tooltipPosition="bottom-left">
-  <MoreVertIcon color={grey400} />
+    >
+    <MoreVertIcon color={grey400} />
   </IconButton>
 );
+/* tooltip="more"
+    tooltipPosition="bottom-left" */

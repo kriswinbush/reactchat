@@ -21,17 +21,6 @@ export default class RcCallGroup extends Component {
   render() {
     return (
       <div className="rc-call-group-container">
-        <IconButton
-          iconClassName="material-icons"
-          tooltip="Ligature"
-          style={this.style.large}
-        >voice_chat</IconButton>
-        <IconButton
-          iconClassName="material-icons"
-          tooltip="Ligature"
-        >group_work</IconButton>
-        
-
         <div className="flex-spacer"></div>
         <Avatar src="https://placeimg.com/640/480/any" style={this.style} />
         <Avatar src="https://placeimg.com/640/480/animals" style={this.style} />

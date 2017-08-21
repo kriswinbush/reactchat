@@ -9,7 +9,7 @@ import IconMenu from 'material-ui/IconMenu';
 import RaisedButton from 'material-ui/RaisedButton';
 import IconButton from 'material-ui/IconButton';
 import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
-
+import NavigationMenuIcon from 'material-ui/svg-icons/navigation/menu';
 export default class RcToolbar extends Component {
   constructor(props) {
     super(props);
@@ -29,10 +29,7 @@ export default class RcToolbar extends Component {
         };
     return (
       <div className="rc-toolbar-container">
-        <Toolbar>
-          <ToolbarGroup firstChild={true}>
-          <ToolbarTitle text="Rx Chat" />
-          </ToolbarGroup>
+        <Toolbar> 
           <ToolbarGroup>
             <DropDownMenu value={this.state.ddValue} onChange={this.handleChange}>
               <MenuItem value={1} primaryText="New File" />
@@ -44,16 +41,16 @@ export default class RcToolbar extends Component {
               <MenuItem value={7} primaryText="Close Window" />
               <MenuItem value={8} primaryText="Exit" />
             </DropDownMenu>
+          </ToolbarGroup>
+          <ToolbarGroup firstChild={true}>
+            <ToolbarTitle text="Rx Chat" />
+          </ToolbarGroup> 
+          <ToolbarGroup>
             <ToolbarSeparator />
-            <RaisedButton label="Broadcast" primary={true} />
-            <ToolbarSeparator />
-            <IconMenu
-              iconButtonElement={
+            <IconMenu iconButtonElement={
                 <IconButton touch={true}>
-                  <NavigationExpandMoreIcon />
-                </IconButton>
-              }
-            >
+                  <NavigationMenuIcon />
+                </IconButton>}>
               <MenuItem primaryText="Download" />
               <MenuItem primaryText="More Info" />
             </IconMenu>

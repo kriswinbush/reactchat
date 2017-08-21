@@ -8,5 +8,41 @@
   .content-list {
     overflow-x: hidden;
     overflow-y: auto;
+    ul {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-direction: column;
+      list-style-type: none;
+    li {
+      width: 100%;
+      &:nth-child(even){
+        background-color: rgba(242, 242, 242, 0.51);
+        span.left-avatar {
+          order: 99;
+        }
+        span.right-menu {
+          order: -1;
+        }
+      }
+      .chat-bubble-container {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        .left-avatar {
+          margin: 0 10px;
+        }
+        .flex-spacer {
+          flex: 1 1 auto;
+        }
+        .chat-msg {
+          flex: 1 1 auto;
+          h3 {
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
   }
 }
