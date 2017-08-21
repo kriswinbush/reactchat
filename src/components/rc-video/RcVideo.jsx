@@ -14,7 +14,10 @@ export default class RcVideo extends Component {
 
   eHandler(event) {
     event.preventDefault();
-    this.props.stores.uiStore.closeVideo();
+    this.props.stores.uiStore.closeVideo()
+      .then(() => {
+        this.props.stores.peerStore.disconnectMyPeer();
+      })
   }
 
   render() {
