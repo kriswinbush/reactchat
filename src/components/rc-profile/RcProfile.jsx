@@ -11,6 +11,10 @@ export default class RcProfile extends Component {
     super(props);
     this.user = this.props.stores.userStore;
     this.style = {'margin':'10px'}
+    this.clickHandler = this.clickHandler.bind(this);
+  }
+  clickHandler() {
+    this.props.stores.uiStore.toggleSideContainer();
   }
   coomponentDidMount() {}
   render() {
@@ -23,15 +27,24 @@ export default class RcProfile extends Component {
         />
         <div>
           <h4>{this.user.profile.userNick}</h4>
-          <p>{this.user.profile.desc}</p>
+          <p>
+            {this.user.profile.desc}
+            {/* <IconButton
+          onClick={this.clickHandler}
+          iconStyle={{color:'white'}}
+          iconClassName="material-icons"
+          tooltip="Ligature"
+          >edit</IconButton> */}
+          </p>
         </div>
         
         <div className="flex-spacer"></div>
         <IconButton
+          onClick={this.clickHandler}
           iconStyle={{color:'white'}}
           iconClassName="material-icons"
           tooltip="Ligature"
-          >edit</IconButton>
+          >menu</IconButton>
       </div>
     )
   }

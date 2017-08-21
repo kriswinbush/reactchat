@@ -11,11 +11,7 @@ import { inject, Provider, observer } from 'mobx-react';
 export default class RcAuth extends React.Component {
   constructor(props) {
     super(props);
-    this.auth = this.props.stores.authStore;
-    this.state = {
-      email: 'kris.winbush@gmail.com',
-      password: 'password'
-    }
+    this.state = { email: 'kris.winbush@gmail.com', password: 'password' };
     this.changeHandler = this.changeHandler.bind(this);
     this.submitHandler = this.submitHandler.bind(this);
   }
@@ -29,16 +25,16 @@ export default class RcAuth extends React.Component {
     event.preventDefault();
     switch(event.target.id) {
       case 'login':
-        this.auth.loginUser(this.state.email, this.state.password)
+        this.props.stores.authStore.loginUser(this.state.email, this.state.password)
           .then(() => this.props.stores.routing.push("/"));
       break;
       case 'signup':
-        this.auth.createUser(this.state.email, this.state.password)
+        this.props.stores.authStore.createUser(this.state.email, this.state.password)
       break;
       case 'anon':
       break;
       case 'logout':
-        this.auth.signOut()
+        this.props.stores.authStore.signOut()
       break;
     }
   }
@@ -51,9 +47,9 @@ export default class RcAuth extends React.Component {
             <CardMedia
               overlay={<CardTitle title="Sign in" subtitle="Login to your account or Sign up with email and password" />}
             >
-              <img src="https://placeimg.com/640/240/any" alt="" />
+              {/* <img src="https://placeimg.com/213/190/any" alt="" /> */}
             </CardMedia>
-            <CardText>{this.auth.errorMessage}</CardText>
+            <CardText>{this.props.stores.authStore.errorMessage}</CardText>
             <CardActions>
               <TextField
                 id="email"

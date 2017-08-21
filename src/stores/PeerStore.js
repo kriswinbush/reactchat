@@ -48,11 +48,11 @@ export class PeerStore {
 
     Rx.Observable.fromEvent(this.peer, 'iceconnectionstatechange')
       .subscribe(event => {
-        /* if(event.target.iceConnectionState == 'disconnect' || event.target.iceConnectionState == 'failed') {
+        if(event.target.iceConnectionState == 'disconnect' || event.target.iceConnectionState == 'failed') {
           this.closeVidNExit()
             .then(()=> this.disconnectMyPeer());
           console.log(this); 
-        } */
+        }
         console.log('ice connection state changed event: ',event)
       });
 

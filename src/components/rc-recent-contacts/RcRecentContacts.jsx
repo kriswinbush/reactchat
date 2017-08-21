@@ -1,3 +1,4 @@
+import './RcRecentContacts.scss';
 import React, {Component} from 'react';
 import {Tabs, Tab} from 'material-ui/Tabs';
 import {List, ListItem} from 'material-ui/List';
@@ -16,8 +17,11 @@ export default class RcRecentContacts extends Component {
   componentDidMount() {}
   render() {
     return (
+      <div className="recent-contacts-container">
       <Tabs>
         <Tab label="Recent" >
+          <div className="recent-container">
+            <div className="recent-scrollable-container">
           <List>
             <Subheader>Recent chats</Subheader>
             <ListItem
@@ -58,8 +62,12 @@ export default class RcRecentContacts extends Component {
               leftAvatar={<Avatar src="https://placeimg.com/640/480/tech" />}
             />
           </List>
+          </div>
+          </div>
         </Tab>
         <Tab label="Contacts" >
+          <div className="contacts-container">
+          <div className="contacts-scrollable-container">
           <List>
             <ListItem
               primaryText="Chelsea Otakan"
@@ -112,8 +120,11 @@ export default class RcRecentContacts extends Component {
               rightAvatar={<Avatar src="https://placeimg.com/640/480/architecture" />}
             />
           </List>
+          </div>
+          </div>
         </Tab>
       </Tabs>
+      </div>
     )
   }
 }

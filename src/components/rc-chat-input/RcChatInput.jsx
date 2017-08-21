@@ -32,7 +32,8 @@ export default class RcChatInput extends Component {
   submitHandler(event) {
     event.preventDefault()
     const { addChatMsg } = this.props.chats
-    addChatMsg({ msg: this.state.msg })
+    addChatMsg({ msg: this.state.msg });
+    this.setState({msg:''});
   }
   render() {
     const { filter, addChatMsg } = this.props.chats
@@ -50,7 +51,6 @@ export default class RcChatInput extends Component {
                     fullWidth={true}
                     value={this.state.msg}
                     onChange={this.changeHandler}
-                    floatingLabelText="Floating Label Text"
                   />
                   <RaisedButton type="submit" label="Send" primary={true} fullWidth={true} />
                 </fieldset>
