@@ -131,7 +131,6 @@ export class PeerStore {
   }
 
   makePeerConnection(email) {
-    console.log(this.peer.connectionstate);
     if(!this.peer) {
       this.peerInit();
     }

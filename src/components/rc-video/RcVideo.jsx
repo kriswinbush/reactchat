@@ -45,3 +45,8 @@ export default class RcVideo extends Component {
     )
   }
 }
+
+/* Info: The current domain is not authorized for OAuth operations.
+This will prevent signInWithPopup, signInWithRedirect, linkWithPopup and 
+linkWithRedirect from working. Add your domain (www.100khz.us) to the OAuth redirect 
+domains list in the Firebase console -> Auth section -> Sign in method tab. */
